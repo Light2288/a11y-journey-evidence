@@ -147,3 +147,9 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# Journey evidence outputs
+.artifacts/
+a11y-evidence/
+playwright-report/
+test-results/
