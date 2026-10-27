@@ -14,3 +14,12 @@ export interface FixtureEvidence {
   observation: ObservationCapture; artifacts: Artifacts; issues: Issue[];
   runtime: { node: string; playwright: string; chromium: string; platform: string; arch: string };
 }
+export interface StepEvidence { seq: number; parent?: number; category: string; title: string; status: 'passed' | 'failed' | 'incomplete'; error?: string; source?: string }
+export interface AttemptEvidence {
+  id: string; title: string; project: string; source: string; retry: number; repeat: number; worker: number;
+  actualStatus: string; expectedStatus: string; errors: string[]; steps: StepEvidence[]; assertions: StepEvidence[];
+  fixture?: FixtureEvidence; issues: Issue[]; complete: boolean; verifiedBehavior: boolean;
+  traces: string[];
+}
+export interface JourneyReporterOptions { outputDir?: string; reproductionCommand?: string }
+export interface RunContext { playwright: string; node: string; startedAt: string; reproductionCommand: string }
