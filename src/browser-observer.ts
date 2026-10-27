@@ -42,7 +42,7 @@ export function installObserver(options: { binding: string; state: string; maxOb
     shadow(event);
     if (event.ctrlKey || event.altKey || event.metaKey) return;
     const target = event.target instanceof Element ? event.target : null;
-    const editable = target?.closest('textarea, [contenteditable]:not([contenteditable="false"])') ||
+    const editable = target?.closest('textarea') || (target instanceof HTMLElement && target.isContentEditable) ||
       (target instanceof HTMLInputElement && !['button','submit','reset','checkbox','radio','range','color','file'].includes(target.type)) || document.designMode === 'on';
     let key: string | undefined;
     if (event.key === 'Tab') key = event.shiftKey ? 'Shift+Tab' : 'Tab';

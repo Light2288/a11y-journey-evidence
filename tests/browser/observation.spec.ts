@@ -105,3 +105,95 @@ test('observation form references are clipped with disclosure', async ({ page })
   expect(capture.issues.some(i => i.code === 'descriptor-truncated')).toBe(true);
   expect(capture.complete).toBe(false);
 });
+
+for (const [name, html] of [
+  ['ordinary-button', '<button id="activate">Activate</button>'],
+  ['explicit-noneditable-button', '<div contenteditable="true"><button id="activate" contenteditable="false">Activate</button></div>'],
+  ['inherited-noneditable-button', '<div contenteditable="true"><div contenteditable="false"><button id="activate">Activate</button></div></div>'],
+  ['input-button', '<input id="activate" type="button" value="Activate">'],
+  ['checkbox', '<input id="activate" type="checkbox" aria-label="Activate">'],
+] as const) {
+  test(`observation Space activation ${name}`, async ({ page }) => {
+    await page.setContent(`${html}<output id="activation-count">0</output>`);
+    const control = page.locator('#activate');
+    await control.evaluate(element => element.addEventListener('click', () => {
+      const output = document.querySelector('#activation-count')!;
+      output.textContent = String(Number(output.textContent) + 1);
+    }));
+    await control.focus();
+    await expect(control).toBeFocused();
+    const session = await beginObservation(page, { maxObservations: 100 });
+    await page.keyboard.press('Space');
+    await expect(page.locator('#activation-count')).toHaveText('1');
+    if (name === 'checkbox') await expect(control).toBeChecked();
+    const capture = await session.finish();
+    const keys = capture.observations.filter(o => o.kind === 'key');
+    expect(keys.map(o => o.key)).toEqual(['Space']);
+    expect(keys[0]!.target?.attributes.id).toBe('activate');
+    expect(capture.complete).toBe(true);
+    expect(capture.issues).toEqual([]);
+  });
+}
+
+for (const [name, html, nativeField] of [
+  ['inherited-editable', '<div contenteditable="true"><span id="editor" tabindex="0">seed</span></div>', false],
+  ['reenabled-editable', '<div contenteditable="true"><div contenteditable="false"><div id="editor" contenteditable="true">seed</div></div></div>', false],
+  ['plaintext-only', '<div id="editor" contenteditable="plaintext-only">seed</div>', false],
+  ['text-input', '<input id="editor">', true],
+  ['textarea', '<textarea id="editor"></textarea>', true],
+] as const) {
+  test(`observation Space editing ${name}`, async ({ page }) => {
+    await page.setContent(html);
+    const editor = page.locator('#editor');
+    await editor.focus();
+    if (!nativeField) {
+      await editor.evaluate(element => {
+        const range = document.createRange();
+        range.selectNodeContents(element);
+        range.collapse(false);
+        const selection = window.getSelection();
+        if (!selection) throw new Error('Editing fixture selection unavailable.');
+        selection.removeAllRanges();
+        selection.addRange(range);
+      });
+      await editor.focus();
+    }
+    await expect(editor).toBeFocused();
+    const session = await beginObservation(page, { maxObservations: 100 });
+    await page.keyboard.type('editing-secret');
+    await page.keyboard.press('Space');
+    if (nativeField) expect(await editor.inputValue()).toBe('editing-secret ');
+    else expect(await editor.evaluate(element => element.textContent?.replaceAll('\u00a0', ' '))).toBe('seedediting-secret ');
+    const capture = await session.finish();
+    expect(capture.observations.filter(o => o.kind === 'key').map(o => o.key)).not.toContain('Space');
+    expect(JSON.stringify(capture.observations)).not.toContain('editing-secret');
+    expect(capture.observations.every(o => !o.target || !('value' in o.target.attributes))).toBe(true);
+    expect(capture.complete).toBe(true);
+  });
+}
+
+test('observation Space preserves design-mode suppression', async ({ page }) => {
+  await page.setContent('<button id="activate" contenteditable="false">Activate</button>');
+  await page.evaluate(() => { document.designMode = 'on'; });
+  await page.locator('#activate').focus();
+  await expect(page.locator('#activate')).toBeFocused();
+  const session = await beginObservation(page, { maxObservations: 100 });
+  await page.keyboard.press('Space');
+  const capture = await session.finish();
+  expect(capture.observations.filter(o => o.kind === 'key').map(o => o.key)).not.toContain('Space');
+  expect(capture.complete).toBe(true);
+});
+
+test('observation Space preserves modifier filtering', async ({ page }) => {
+  await page.setContent('<button id="activate">Activate</button>');
+  await page.locator('#activate').focus();
+  await expect(page.locator('#activate')).toBeFocused();
+  const session = await beginObservation(page, { maxObservations: 100 });
+  await page.keyboard.press('Control+Space');
+  await page.keyboard.press('Alt+Space');
+  await page.keyboard.press('Meta+Space');
+  await page.keyboard.press('Space');
+  const capture = await session.finish();
+  expect(capture.observations.filter(o => o.kind === 'key').map(o => o.key)).toEqual(['Space']);
+  expect(capture.complete).toBe(true);
+});
