@@ -1,7 +1,6 @@
 {
   "name": "a11y-journey-evidence",
-  "version": "0.1.0-batch.1",
-  "private": true,
+  "version": "0.1.0",
   "type": "module",
   "description": "Reviewable keyboard and focus evidence for native Playwright journeys",
   "license": "MIT",
@@ -42,5 +41,13 @@
       "import": "./dist/reporter.js",
       "default": "./dist/reporter.js"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Light2288/a11y-journey-evidence.git"
+  },
+  "homepage": "https://github.com/Light2288/a11y-journey-evidence#readme",
+  "bugs": {
+    "url": "https://github.com/Light2288/a11y-journey-evidence/issues"
   }
 }

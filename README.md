@@ -1,6 +1,6 @@
 # A11y Journey Evidence
 
-Reviewable keyboard and focus evidence for native Playwright Test journeys. The package provides dialog and form examples, two isolated regressions per pattern, an opt-in fixture/reporter, and equivalent stock Playwright comparisons.
+Experimental keyboard and focus evidence for native Playwright Test journeys. The package provides dialog and form examples, two isolated regressions per pattern, an opt-in fixture/reporter, and equivalent stock Playwright comparisons.
 
 The package observes and presents explicit tests. It does not decide correct focus policies, run screen readers, or establish accessibility conformance.
 
@@ -37,9 +37,20 @@ Use `npx playwright show-report .artifacts/stock-html` or the corresponding pack
 
 `npm run build` compiles ESM JavaScript and declarations. `npm run typecheck`, `npm run test:unit`, and `npm run test:browser` check types, Node unit tests, and Chromium integration tests respectively. Generated outputs are ignored by Git.
 
-## Install the local package
+## Install from npm
 
-This experimental version is private and is delivered as a tarball; registry publication is outside the current delivery scope.
+In an existing ESM Playwright project using Node **24.21.0**, install the package and its tested Playwright Test peer:
+
+```sh
+npm install --save-dev a11y-journey-evidence@0.1.0 @playwright/test@1.64.1
+npx playwright install chromium
+```
+
+Version **0.1.0** includes the dialog and form journeys and remains experimental. Compatibility is verified only on the toolchain and host listed above. There is no additional runtime framework, CLI, or scanner dependency.
+
+### Optional local tarball
+
+From a repository checkout:
 
 ```sh
 npm run build
@@ -47,9 +58,9 @@ mkdir -p .artifacts/package
 npm pack --pack-destination .artifacts/package
 ```
 
-In an existing ESM Playwright project using the tested toolchain, install the generated tarball as a development dependency with `npm install --save-dev /absolute/path/to/a11y-journey-evidence-0.1.0-batch.1.tgz`. Playwright Test 1.64.1 is a peer dependency. There is no additional runtime framework, CLI, or scanner dependency.
+Install the generated tarball in another ESM project with `npm install --save-dev /absolute/path/to/a11y-journey-evidence-0.1.0.tgz @playwright/test@1.64.1`. The same tested-toolchain and capture limitations apply.
 
-`npm run verify:consumer` packs the actual artifact and installs it into a fresh external copy of [the minimal consumer](examples/consumer), then type-checks, runs Playwright, verifies existing-fixture composition and reporter coexistence, and moves a bundle to check its links. Its correct dialog and form produce two selected attempts; a third unselected control produces no evidence. Integration uses installed files without repository-source imports.
+`npm run verify:consumer` packs the actual artifact and installs it into a fresh external copy of [the minimal consumer](https://github.com/Light2288/a11y-journey-evidence/tree/main/examples/consumer), then type-checks, runs Playwright, verifies existing-fixture composition and reporter coexistence, and moves a bundle to check its links. Its correct dialog and form produce two selected attempts; a third unselected control produces no evidence. Integration uses installed files without repository-source imports.
 
 ## Compose existing fixtures
 
@@ -83,7 +94,7 @@ The reporter subpath resolves to ESM JavaScript. The repository's own package ex
 
 ## Opt a test into evidence
 
-Request `journey`, complete your normal page/content setup, and call `journey.start({ root })` once before the keyboard behavior under test. Continue using native actions, locators, named steps, and assertions. [The complete dialog recipe](examples/shared/dialog-journey.ts) declares initial focus, both containment boundaries, dismissal, and restoration explicitly.
+Request `journey`, complete your normal page/content setup, and call `journey.start({ root })` once before the keyboard behavior under test. Continue using native actions, locators, named steps, and assertions. [The complete dialog recipe](https://github.com/Light2288/a11y-journey-evidence/blob/main/examples/shared/dialog-journey.ts) declares initial focus, both containment boundaries, dismissal, and restoration explicitly.
 
 ```ts
 // After navigation/setup, before the actions being tested:
@@ -97,7 +108,7 @@ await test.step('Keyboard opens preferences', async () => {
 
 For a group, use ordinary `beforeEach` setup and start recording once per test after its page setup. Tests that never request the fixture produce no journey observations. Requesting it without starting is reported as incomplete. A native Locator declares the snapshot root; it may mount later. An ambiguous root is never silently reduced to its first match, and a missing root never becomes a whole-document snapshot.
 
-[The form recipe](examples/shared/form-journey.ts) declares `page.locator('#form')` as its capture root. Name and Team are required text fields with submit-only in-page validation. Invalid keyboard submission shows inline errors, sets `aria-invalid`, associates errors through `aria-describedby`, and focuses the first invalid field. Native `toHaveAccessibleDescription` verifies this chosen association; `aria-errormessage` uses different semantics and its own native assertion. The example disables browser validation UI so it cannot mask the deliberately omitted focus movement. Keyboard correction and resubmission clear stale errors/references and show a success status. This policy is explicit for this example; DOM semantics do not prove a screen reader announces an error.
+[The form recipe](https://github.com/Light2288/a11y-journey-evidence/blob/main/examples/shared/form-journey.ts) declares `page.locator('#form')` as its capture root. Name and Team are required text fields with submit-only in-page validation. Invalid keyboard submission shows inline errors, sets `aria-invalid`, associates errors through `aria-describedby`, and focuses the first invalid field. Native `toHaveAccessibleDescription` verifies this chosen association; `aria-errormessage` uses different semantics and its own native assertion. The example disables browser validation UI so it cannot mask the deliberately omitted focus movement. Keyboard correction and resubmission clear stale errors/references and show a success status. This policy is explicit for this example; DOM semantics do not prove a screen reader announces an error.
 
 Options on `start`:
 
@@ -126,7 +137,7 @@ Move the **whole run directory**, including `assets`, to share a bundle. The Mar
 
 Observations retain Tab, Shift+Tab, Enter, Escape, and relevant Space keydown events. Printable input history and field values are excluded; Space in text-editing targets is suppressed. Focus descriptors contain a local reference, tag, and allowlisted attributes: `id`, `name`, `type`, `role`, `tabindex`, `disabled`, `aria-label`, `aria-labelledby`, `aria-expanded`, `aria-hidden`, `aria-modal`, `aria-selected`, `aria-checked`, `aria-disabled`, `aria-pressed`, `aria-invalid`, and `aria-describedby`. Attribute strings are clipped at 256 characters with disclosure. These are sampled raw attributes, not computed names/descriptions or continuous validation-state tracking.
 
-Space filtering respects effective content editability, including noneditable buttons nested inside editable containers. Input/textarea and document-design-mode safeguards remain in place. This targeted correction does not establish general rich-text-editor support; see [the Space-key fix results](docs/space-key-observation-fix-results.md).
+Space filtering respects effective content editability, including noneditable buttons nested inside editable containers. Input/textarea and document-design-mode safeguards remain in place. This targeted correction does not establish general rich-text-editor support; see [the Space-key fix results](https://github.com/Light2288/a11y-journey-evidence/blob/main/docs/space-key-observation-fix-results.md).
 
 Native records are bounded at 10000 steps per attempt; titles/diagnostics at 16 KiB per string, with visible clipping. Arbitrary native step parameters are not copied wholesale. Titles, diagnostics, attributes, screenshots, snapshots, and traces can still contain application data. Use synthetic data and inspect bundles before sharing. Capture controls and typed-value exclusion do not provide general sanitization.
 
@@ -134,6 +145,6 @@ Support is limited to Chromium, one page/main document, ordinary light DOM, and 
 
 ## Findings and release continuity
 
-See [the form author comparison](docs/batch-2-comparison.md), [Batch 2 verification and remaining release work](docs/batch-2-results.md), and [the Batch 2 specification](docs/superpowers/specs/2026-10-27-batch-2-form-package-comparison.md). [Batch 1's comparison](docs/batch-1-comparison.md) and [results](docs/batch-1-results.md) remain historical records. **External validation is pending.**
+See [the form author comparison](https://github.com/Light2288/a11y-journey-evidence/blob/main/docs/batch-2-comparison.md), [Batch 2 verification and remaining release work](https://github.com/Light2288/a11y-journey-evidence/blob/main/docs/batch-2-results.md), and [the Batch 2 specification](https://github.com/Light2288/a11y-journey-evidence/blob/main/docs/superpowers/specs/2026-10-27-batch-2-form-package-comparison.md). [Batch 1's comparison](https://github.com/Light2288/a11y-journey-evidence/blob/main/docs/batch-1-comparison.md) and [results](https://github.com/Light2288/a11y-journey-evidence/blob/main/docs/batch-1-results.md) remain historical records. **External validation is pending.**
 
-Batch 2 adds the form and its stock comparison while rerunning the existing dialog and infrastructure checks. This does not automatically declare v0.1 acceptance or authorize publication. Remaining release decisions are recorded in the historical results; the subsequent Space-key correction is recorded in its own results above. Further work needs its own approved scope and artifacts.
+The v0.1.0 scope includes both completed batches and the Space-key correction. The linked delivery records preserve their original findings and decisions; current release preparation and publication are tracked separately. These checks support the documented experimental scope and do not establish external usefulness, screen-reader behavior, or accessibility conformance. Further product work needs its own approved scope and artifacts.
