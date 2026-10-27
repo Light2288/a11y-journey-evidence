@@ -54,7 +54,7 @@ These are Git-ignored execution artifacts; fresh checkouts regenerate them using
 | Fix AC-05 | Unchanged observer contract, modifier regression, existing key/focus/order/bounds/capture regressions |
 | Fix AC-06 | Full integration commands and existing precise demo/consumer checks, recorded above before review |
 | Fix AC-07 | Current README correction and this record, with historical documents unchanged |
-| Fix AC-08 | Sole sequential final-review gate and local delivery record, pending below |
+| Fix AC-08 | Passing sole sequential final-review gate and completed local delivery record below |
 | Release AC-03 | Repairs the known omission in supported-key observation; adds bounded targeted evidence rather than asserting universal key/editor coverage |
 
 ## Sequential review and delivery
@@ -69,10 +69,14 @@ The sole integrated `personal-workflows:code-review` gate reviewed the complete 
 
 Both stages found no missing/extra work or findings requiring changes. No items were declined for judgment within the reviewed scope; no ruling, correction pass, or deferred minor was needed. Reviewers inspected supplied command evidence rather than independently rerunning the suites. Broader compatibility and general editor support remain unproven. Post-gate records change documentation only; reviewed product code is unchanged.
 
+The exact post-review task-completion command `npm test` exited 0 with `ℹ pass 4` and `53 passed (24.1s)`. Both implementation tasks are complete. The task ledger records `Task 1: complete (commits 923a4fa..2620400, tests: npm run test:browser -- --grep observation → 20 passed (1.8s))` and `Task 2: complete (commits 2620400..6a2ac66, tests: npm test → 53 passed (24.1s))`.
+
+**Delivery status: COMPLETE.** No implementation rulings or deferred minors arose. The prior Space-key minor is resolved. Final historical-hash checks passed for all nine pre-existing documents against the pre-implementation record; only current guidance and this fix's own artifacts changed. The existing checkout and local branch are preserved; only this plan's generated scratch is removed after its evidence/decisions are committed. No push or merge was performed.
+
 ## Limits and subsequent decisions
 
 The correction establishes the tested effective-editability behavior in Chromium. It does not add a rich-text-editor journey, screen-reader testing, or accessibility-conformance claim. Observation data filtering does not sanitize screenshots, snapshots, traces, or native diagnostics. Compatibility remains bounded to the actually exercised environment; other hosts/browsers and CI remain untested.
 
 External usefulness validation is still pending; the existing comparisons are author assessments. Report verbosity and explicit release-readiness/version/distribution decisions remain provisional. This fix does not automatically declare v0.1 acceptance or authorize publication or outreach.
 
-Execution ends with the verified fix, required review, durable records, and local commits on `fix/space-key-observation`; no push, merge, release-readiness work, or subsequent increment is performed.
+Execution is complete at the approved endpoint: verified fix, passing required review, durable records, and local commits on `fix/space-key-observation`; no push, merge, release-readiness work, or subsequent increment is performed.
