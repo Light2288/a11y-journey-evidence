@@ -7,7 +7,7 @@ export interface ObservationSession { finish(): Promise<ObservationCapture> }
 import type { Locator, TestInfo } from '@playwright/test';
 export interface JourneyOptions { root: Locator; screenshots?: boolean; ariaSnapshots?: boolean; maxObservations?: number }
 export interface Journey { start(options: JourneyOptions): Promise<void> }
-export interface ArtifactOutcome { status: 'captured' | 'empty' | 'disabled' | 'not-needed' | 'unavailable'; path?: string; reason?: string; startedAt?: string; finishedAt?: string }
+export interface ArtifactOutcome { status: 'captured' | 'empty' | 'disabled' | 'not-needed' | 'unavailable'; path?: string; link?: string; reason?: string; startedAt?: string; finishedAt?: string }
 export interface Artifacts { screenshot: ArtifactOutcome; ariaSnapshot: ArtifactOutcome }
 export interface FixtureEvidence {
   version: 1; started: boolean; captureStatus: TestInfo['status']; capturePhase: 'fixture-teardown';
