@@ -24,22 +24,31 @@ const native=JSON.parse(await readFile(join(consumer,'.artifacts/native.json'),'
 const tests=[];
 function visit(suite){for(const spec of suite.specs??[])for(const test of spec.tests)tests.push({...test,title:spec.title});for(const sub of suite.suites??[])visit(sub);}
 for(const suite of native.suites)visit(suite);
-assert.equal(tests.length,2);assert.ok(tests.every(test=>test.results[0].status==='passed'));
-const selected=tests.find(test=>test.title==='packed consumer dialog uses existing fixture');
+assert.equal(tests.length,3);assert.ok(tests.every(test=>test.results[0].status==='passed'));
+const selectedTitles=['packed consumer dialog uses existing fixture','packed consumer form uses existing fixture'];
+const selected=tests.filter(test=>selectedTitles.includes(test.title));
 const control=tests.find(test=>test.title==='packed consumer unselected control');
-assert.ok(selected);assert.ok(control);
+assert.deepEqual(selected.map(test=>test.title).sort(),[...selectedTitles].sort());assert.ok(control);
 assert.equal(control.results[0].attachments.some(a=>a.name==='a11y-journey.v1.json'),false);
-const attachment=selected.results[0].attachments.find(a=>a.name==='a11y-journey.v1.json');assert.ok(attachment);
-const payload=JSON.parse(attachment.path?await readFile(attachment.path,'utf8'):Buffer.from(attachment.body,'base64').toString());
+const payloads=[];
+for(const testcase of selected){
+  const attachments=testcase.results[0].attachments.filter(a=>a.name==='a11y-journey.v1.json');assert.equal(attachments.length,1);
+  const attachment=attachments[0];
+  const payload=JSON.parse(attachment.path?await readFile(attachment.path,'utf8'):Buffer.from(attachment.body,'base64').toString());
+  assert.equal(payload.started,true);assert.equal(payload.observation.complete,true);
+  if(testcase.title==='packed consumer form uses existing fixture')assert.ok(payload.observation.observations.some(o=>o.target?.attributes.id==='name'&&o.target.attributes['aria-invalid']==='true'&&o.target.attributes['aria-describedby']==='name-error'));
+  payloads.push(payload);
+}
+assert.ok((await stat(join(consumer,'.artifacts/html/index.html'))).isFile());
 const runs=await readdir(join(consumer,'.artifacts/evidence'));
 assert.equal(runs.length,1);
 const reportDir=join(consumer,'.artifacts/evidence',runs[0]);
 const moved=join(await mkdtemp(join(tmpdir(),'aje-consumer-moved-')),'bundle');await cp(reportDir,moved,{recursive:true});
 const report=await readFile(join(moved,'report.md'),'utf8');
-assert.match(report,/Selected attempts: 1/);assert.match(report,/packed consumer dialog uses existing fixture/);assert.doesNotMatch(report,/packed consumer unselected control/);
+assert.match(report,/Selected attempts: 2/);assert.match(report,/packed consumer dialog uses existing fixture/);assert.match(report,/packed consumer form uses existing fixture/);assert.doesNotMatch(report,/packed consumer unselected control/);
 for(const link of report.matchAll(/\]\((assets\/[^)]+)\)/g))assert.ok((await stat(join(moved,link[1]))).isFile());
 const saved=join(root,'.artifacts/consumer');await rm(saved,{recursive:true,force:true});await cp(join(consumer,'.artifacts'),saved,{recursive:true});
-const proof={tarball:packed.filename,installedFromTarball:true,freshExternalDirectory:true,consumerTests:tests.map(t=>({title:t.title,status:t.results[0].status})),existingFixtureVerified:true,unselectedControlObserved:false,nativeAndEvidenceReports:true,movedLinksVerified:true,runtime:payload.runtime,npm:execFileSync('npm',['--version'],{encoding:'utf8'}).trim(),typescript:require('typescript/package.json').version,host:process.platform==='darwin'?execFileSync('sw_vers',['-productVersion'],{encoding:'utf8'}).trim():process.platform,report:`.artifacts/consumer/evidence/${runs[0]}/report.md`};
+const proof={tarball:packed.filename,installedFromTarball:true,freshExternalDirectory:true,consumerTests:tests.map(t=>({title:t.title,status:t.results[0].status})),existingFixtureVerified:true,formVerified:true,unselectedControlObserved:false,nativeAndEvidenceReports:true,movedLinksVerified:true,runtime:payloads[0].runtime,npm:execFileSync('npm',['--version'],{encoding:'utf8'}).trim(),typescript:require('typescript/package.json').version,host:process.platform==='darwin'?execFileSync('sw_vers',['-productVersion'],{encoding:'utf8'}).trim():process.platform,report:`.artifacts/consumer/evidence/${runs[0]}/report.md`};
 await writeFile(join(root,'.artifacts/consumer-verification.json'),JSON.stringify(proof,null,2)+'\n');
-console.log('Packed consumer verified: 2 passed; fixture composition, native reporter, opt-in isolation, declarations, and moved links.');
+console.log('Packed consumer verified: 3 passed; form, dialog, fixture composition, native reporter, opt-in isolation, declarations, and moved links.');
 console.log(`Evidence: ${proof.report}`);

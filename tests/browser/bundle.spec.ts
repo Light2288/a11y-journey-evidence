@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { cp, mkdtemp, readFile, readdir, stat, writeFile } from 'node:fs/promises';
-import { join, dirname } from 'node:path';
+import { join, dirname, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { runCase } from '../support/run-case.js';
 async function reports(directory: string): Promise<string[]> {
@@ -40,5 +40,29 @@ test('bundle exposes missing and corrupt handoff as evidence failure',async()=>{
     const text=await readFile((await reports(run.directory))[0]!,'utf8');
     expect(text).toContain('handoff-failed');
     expect(text).toContain('incomplete');
+  }
+});
+
+test('bundle form failures remain understandable with moved scoped artifacts', async () => {
+  const run = await runCase('form ', { config: resolve('examples/package/playwright.config.ts') });
+  expect(run.exitCode).toBe(0);
+  const paths = await reports(run.directory);
+  expect(paths).toHaveLength(1);
+  const destination = join(await mkdtemp(join(tmpdir(), 'aje-form-moved-')), 'bundle');
+  await cp(dirname(paths[0]!), destination, { recursive: true });
+  const text = await readFile(join(destination, 'report.md'), 'utf8');
+  for (const detail of ['Association: Name describes its visible error', 'Error focus: Name is the first invalid field',
+    'actual: failed', 'expected: failed', 'fixture-teardown', 'Capture start:', '"id":"name"', '"id":"submit"']) expect(text).toContain(detail);
+  expect(text).not.toContain(run.directory);
+  const links = [...text.matchAll(/\]\((assets\/[^)]+)\)/g)].map(m => m[1]!);
+  expect(links.filter(link => link.endsWith('aria.yml'))).toHaveLength(2);
+  for (const link of links) {
+    expect((await stat(join(destination, link))).isFile()).toBe(true);
+    if (link.endsWith('aria.yml')) {
+      const snapshot = await readFile(join(destination, link), 'utf8');
+      expect(snapshot).toContain('Team request');
+      expect(snapshot).toContain('Enter a name.');
+      expect(snapshot).not.toContain('Preferences');
+    }
   }
 });

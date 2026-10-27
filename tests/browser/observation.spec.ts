@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { beginObservation } from '../../dist/observation.js';
+import { loadForm } from '../../examples/shared/form.js';
+import { exerciseForm } from '../../examples/shared/form-journey.js';
 
 test('observation retains relevant keys and never typed values', async ({ page }) => {
   await page.setContent('<button id="first">First</button><input id="field"><button id="last">Last</button>');
@@ -69,4 +71,37 @@ test('observation discloses document replacement after recording starts',async({
   const capture=await session.finish();
   expect(capture.complete).toBe(false);
   expect(capture.issues.some(i=>i.code==='unsupported-document-replacement')).toBe(true);
+});
+
+test('observation form descriptors retain validation context without typed values', async ({ page }) => {
+  await loadForm(page, 'correct');
+  const session = await beginObservation(page, { maxObservations: 1000 });
+  await exerciseForm(page);
+  const capture = await session.finish();
+  expect(capture.complete).toBe(true);
+  expect(capture.observations.some(o => o.target?.attributes.id === 'name' &&
+    o.target.attributes['aria-invalid'] === 'true' &&
+    o.target.attributes['aria-describedby'] === 'name-error')).toBe(true);
+  expect(capture.observations.some(o => o.target?.attributes.id === 'team' &&
+    o.target.attributes['aria-describedby'] === 'team-error')).toBe(true);
+  expect(JSON.stringify(capture.observations)).not.toContain('Example User');
+  expect(JSON.stringify(capture.observations)).not.toContain('Example Team');
+  expect(capture.observations.filter(o => o.kind === 'key').map(o => o.key)).not.toContain('Space');
+  expect(capture.observations.every(o => !o.target || !('value' in o.target.attributes))).toBe(true);
+});
+
+test('observation form references are clipped with disclosure', async ({ page }) => {
+  await page.setContent(`<input id="field" value="attribute-secret" data-private="private-secret" aria-invalid="true" aria-describedby="${'x'.repeat(300)}">`);
+  const session = await beginObservation(page, { maxObservations: 100 });
+  await page.keyboard.press('Tab');
+  const capture = await session.finish();
+  const descriptor = capture.observations.find(o => o.target?.attributes.id === 'field')!.target!;
+  expect(descriptor.attributes['aria-describedby']).toBe('x'.repeat(256));
+  expect(descriptor.attributes['aria-invalid']).toBe('true');
+  expect(descriptor.attributes).not.toHaveProperty('value');
+  expect(descriptor.attributes).not.toHaveProperty('data-private');
+  expect(JSON.stringify(capture)).not.toContain('attribute-secret');
+  expect(JSON.stringify(capture)).not.toContain('private-secret');
+  expect(capture.issues.some(i => i.code === 'descriptor-truncated')).toBe(true);
+  expect(capture.complete).toBe(false);
 });

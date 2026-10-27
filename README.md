@@ -1,6 +1,6 @@
 # A11y Journey Evidence
 
-Reviewable keyboard and focus evidence for native Playwright Test journeys. Batch 1 provides a dialog example, two isolated regressions, an opt-in fixture/reporter package, and an equivalent stock Playwright comparison.
+Reviewable keyboard and focus evidence for native Playwright Test journeys. The package provides dialog and form examples, two isolated regressions per pattern, an opt-in fixture/reporter, and equivalent stock Playwright comparisons.
 
 The package observes and presents explicit tests. It does not decide correct focus policies, run screen readers, or establish accessibility conformance.
 
@@ -17,7 +17,16 @@ npm run demo:stock
 npm run verify:consumer
 ```
 
-Both demos have one correct dialog and two deliberately broken variants. Their commands succeed when the correct case passes and both broken cases fail their intended assertions. The evidence still records the broken cases as **actual failed assertions**, including when Playwright expects failure. Regression tests reject earlier unrelated failures and unexpected passes.
+Each demo has six cases: a correct dialog, a correct form, and four deliberately broken variants. Commands succeed when both correct cases pass and all broken cases fail their intended assertions. The evidence records the broken cases as **actual failed assertions**, including when Playwright expects failure. Playwright's summary may label all six expected cases passed; this is not six verified journeys. Regression tests reject earlier unrelated failures and unexpected passes.
+
+Use native filters to reproduce a form failure:
+
+```sh
+npm run demo:package -- --grep "form missing-error-association"
+npm run demo:stock -- --grep "form missing-error-association"
+npm run demo:package -- --grep "form failed-error-focus"
+npm run demo:stock -- --grep "form failed-error-focus"
+```
 
 - Package Markdown: the command prints `a11y-evidence/<run-id>/report.md`.
 - Native package report: `.artifacts/package-html/index.html`.
@@ -30,7 +39,7 @@ Use `npx playwright show-report .artifacts/stock-html` or the corresponding pack
 
 ## Install the local package
 
-This experimental version is private and is delivered as a tarball; registry publication is not part of Batch 1.
+This experimental version is private and is delivered as a tarball; registry publication is outside the current delivery scope.
 
 ```sh
 npm run build
@@ -40,7 +49,7 @@ npm pack --pack-destination .artifacts/package
 
 In an existing ESM Playwright project using the tested toolchain, install the generated tarball as a development dependency with `npm install --save-dev /absolute/path/to/a11y-journey-evidence-0.1.0-batch.1.tgz`. Playwright Test 1.64.1 is a peer dependency. There is no additional runtime framework, CLI, or scanner dependency.
 
-`npm run verify:consumer` packs the actual artifact and installs it into a fresh external copy of [the minimal consumer](examples/consumer), then type-checks, runs Playwright, verifies existing-fixture composition and reporter coexistence, and moves a bundle to check its links. It does not satisfy integration through repository-source imports.
+`npm run verify:consumer` packs the actual artifact and installs it into a fresh external copy of [the minimal consumer](examples/consumer), then type-checks, runs Playwright, verifies existing-fixture composition and reporter coexistence, and moves a bundle to check its links. Its correct dialog and form produce two selected attempts; a third unselected control produces no evidence. Integration uses installed files without repository-source imports.
 
 ## Compose existing fixtures
 
@@ -88,6 +97,8 @@ await test.step('Keyboard opens preferences', async () => {
 
 For a group, use ordinary `beforeEach` setup and start recording once per test after its page setup. Tests that never request the fixture produce no journey observations. Requesting it without starting is reported as incomplete. A native Locator declares the snapshot root; it may mount later. An ambiguous root is never silently reduced to its first match, and a missing root never becomes a whole-document snapshot.
 
+[The form recipe](examples/shared/form-journey.ts) declares `page.locator('#form')` as its capture root. Name and Team are required text fields with submit-only in-page validation. Invalid keyboard submission shows inline errors, sets `aria-invalid`, associates errors through `aria-describedby`, and focuses the first invalid field. Native `toHaveAccessibleDescription` verifies this chosen association; `aria-errormessage` uses different semantics and its own native assertion. The example disables browser validation UI so it cannot mask the deliberately omitted focus movement. Keyboard correction and resubmission clear stale errors/references and show a success status. This policy is explicit for this example; DOM semantics do not prove a screen reader announces an error.
+
 Options on `start`:
 
 | Option | Default | Meaning |
@@ -113,14 +124,16 @@ Move the **whole run directory**, including `assets`, to share a bundle. The Mar
 
 ## Application data and limits
 
-Observations retain Tab, Shift+Tab, Enter, Escape, and relevant Space keydown events. Printable input history and field values are excluded; Space in text-editing targets is suppressed. Focus descriptors contain a local reference, tag, and allowlisted attributes: `id`, `name`, `type`, `role`, `tabindex`, `disabled`, `aria-label`, `aria-labelledby`, `aria-expanded`, `aria-hidden`, `aria-modal`, `aria-selected`, `aria-checked`, `aria-disabled`, and `aria-pressed`. Attribute strings are clipped at 256 characters with disclosure. Raw attributes are not computed accessible names.
+Observations retain Tab, Shift+Tab, Enter, Escape, and relevant Space keydown events. Printable input history and field values are excluded; Space in text-editing targets is suppressed. Focus descriptors contain a local reference, tag, and allowlisted attributes: `id`, `name`, `type`, `role`, `tabindex`, `disabled`, `aria-label`, `aria-labelledby`, `aria-expanded`, `aria-hidden`, `aria-modal`, `aria-selected`, `aria-checked`, `aria-disabled`, `aria-pressed`, `aria-invalid`, and `aria-describedby`. Attribute strings are clipped at 256 characters with disclosure. These are sampled raw attributes, not computed names/descriptions or continuous validation-state tracking.
+
+Known deferred limitation: a noneditable button nested inside an editable container can have its Space activation omitted without disclosure. Native assertions/outcomes remain intact. The supplied dialog and form examples do not use editable containers.
 
 Native records are bounded at 10000 steps per attempt; titles/diagnostics at 16 KiB per string, with visible clipping. Arbitrary native step parameters are not copied wholesale. Titles, diagnostics, attributes, screenshots, snapshots, and traces can still contain application data. Use synthetic data and inspect bundles before sharing. Capture controls and typed-value exclusion do not provide general sanitization.
 
-Support is limited to Chromium, one page/main document, ordinary light DOM, and the explicit observed journey. Frames, new pages, shadow traversal, navigation/document replacement, nested dialogs, other patterns, and additional browsers are outside this increment. Identifiable unsupported boundaries are disclosed; complete detection outside scope is not promised. Custom matcher internals are not interpreted. DOM focus, ARIA structure, and screenshots do not establish screen-reader announcements, focus-indicator quality, inclusive usability, or conformance.
+Support is limited to Chromium, one page/main document, ordinary light DOM, and the explicit observed journey. Frames, new pages, shadow traversal, navigation/document replacement, nested dialogs, patterns beyond the dialog/form examples, and additional browsers are outside this increment. Identifiable unsupported boundaries are disclosed; complete detection outside scope is not promised. Custom matcher internals are not interpreted. DOM focus, ARIA structure, and screenshots do not establish screen-reader announcements, focus-indicator quality, inclusive usability, or conformance.
 
 ## Findings and release continuity
 
-See [the author comparison](docs/batch-1-comparison.md), [verification and remaining release work](docs/batch-1-results.md), and [the Batch 1 specification](docs/superpowers/specs/2026-10-27-batch-1-dialog-package-comparison.md). **External validation is pending.**
+See [the form author comparison](docs/batch-2-comparison.md), [Batch 2 verification and remaining release work](docs/batch-2-results.md), and [the Batch 2 specification](docs/superpowers/specs/2026-10-27-batch-2-form-package-comparison.md). [Batch 1's comparison](docs/batch-1-comparison.md) and [results](docs/batch-1-results.md) remain historical records. **External validation is pending.**
 
-Batch 1 does not complete v0.1. The correct form and its two broken variants, corresponding stock comparison, and remaining cross-pattern release verification are deferred. Further work needs its own approved scope and artifacts.
+Batch 2 adds the form and its stock comparison while rerunning the existing dialog and infrastructure checks. This does not automatically declare v0.1 acceptance or authorize publication. Release gaps and the deferred observation minor remain explicit in the results. Further work needs its own approved scope and artifacts.
