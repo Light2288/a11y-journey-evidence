@@ -62,3 +62,11 @@ test('observation retains received events after page closure', async ({ page }) 
   expect(result.complete).toBe(false);
   expect(result.issues.some(i => i.code === 'page-closed')).toBe(true);
 });
+test('observation discloses document replacement after recording starts',async({page})=>{
+  await page.setContent('<button>Before</button>');
+  const session=await beginObservation(page,{maxObservations:100});
+  await page.setContent('<button>Replacement</button>');
+  const capture=await session.finish();
+  expect(capture.complete).toBe(false);
+  expect(capture.issues.some(i=>i.code==='unsupported-document-replacement')).toBe(true);
+});

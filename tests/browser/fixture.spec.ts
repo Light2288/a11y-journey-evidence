@@ -31,3 +31,12 @@ test('fixture records not-started and leaves unselected tests alone', async () =
   expect(unselected.exitCode).toBe(0);
   expect(unselected.payloads).toHaveLength(0);
 });
+
+test('fixture capture write error preserves the assertion and other capture',async()=>{
+  const run=await runCase('fixture capture-error$');
+  expect(run.exitCode).toBe(1);
+  expect(run.tests[0].results[0].errors[0].message).toContain('original assertion failure');
+  expect(run.payloads[0].artifacts.screenshot.status).toBe('unavailable');
+  expect(run.payloads[0].artifacts.ariaSnapshot.status).toBe('captured');
+  expect(run.payloads[0].issues.some((i:any)=>i.code==='capture-failed')).toBe(true);
+});

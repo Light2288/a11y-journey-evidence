@@ -54,3 +54,16 @@ test('outcomes exposes missing corrupt handoffs and late failure timing', async 
   expect(late.attempts[0].issues.some((i: any) => i.code === 'late-failure')).toBe(true);
   expect(late.attempts[0].errors.join(' ')).toContain('late teardown failure');
 });
+
+test('outcomes concurrent failures have noncolliding artifacts and passing tests can have incomplete evidence',async()=>{
+  const concurrent=await outcomes('outcomes concurrent-failure-', ['--workers','2']);
+  expect(concurrent.exitCode).toBe(1);
+  expect(concurrent.attempts).toHaveLength(2);
+  const paths=concurrent.attempts.map(a=>a.fixture.artifacts.screenshot.path);
+  expect(paths.every(Boolean)).toBe(true);
+  expect(new Set(paths).size).toBe(2);
+  const incomplete=await outcomes('outcomes incomplete-pass$');
+  expect(incomplete.attempts[0].actualStatus).toBe('passed');
+  expect(incomplete.attempts[0].complete).toBe(false);
+  expect(incomplete.attempts[0].issues.some((i:any)=>i.code==='unsupported-document-replacement')).toBe(true);
+});

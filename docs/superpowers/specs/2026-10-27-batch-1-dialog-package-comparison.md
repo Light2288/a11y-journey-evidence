@@ -6,7 +6,7 @@
 **Type:** feature  
 **Status:** APPROVED  
 **Provenance:** User-authorized handoff from chat `01a17a88-2c05-7433-870e-ac68ef1e0ace` to start Batch 1 specification work in this repository; confirmed Batch 1 scope/design and clarification answers reproduced below; approved release reference `docs/superpowers/specs/2026-10-26-a11y-journey-evidence-v0-1.md`. This is a separate delivery-increment specification, not a revision or replacement of the release specification.  
-**Approval state:** Stage 1 scope/design confirmed. The user explicitly approved this specification on 2026-10-27 with the message `approved`, in response to its Stage 2 presentation. Stage 3 implementation planning is authorized. No Batch 1 implementation plan exists or is approved. Implementation is not authorized.
+**Approval state:** Stage 1 scope/design confirmed. The user explicitly approved this specification on 2026-10-27 with the message `approved`, in response to its Stage 2 presentation. The separate Batch 1 plan at `docs/superpowers/plans/2026-10-27-batch-1-dialog-package-comparison.md` was approved by the subsequent `PLEASE IMPLEMENT THIS PLAN:` message on 2026-10-27. Stage 4 implementation is authorized.
 
 ## Problem
 
@@ -190,7 +190,7 @@ Author-selected elaborations within the confirmed scope: document the focus-desc
 
 No new material scope/design ambiguity was identified from the confirmed handoff and release reference. Future material questions must use the user's required native interactive clarification control; if needed but unavailable, request Plan mode and wait. No clarification answer itself approves this document.
 
-**Current stage:** Stage 3, implementation planning. The user's `approved` message on 2026-10-27 approved this specification after its Stage 2 presentation. This authorizes writing a separate Batch 1 implementation plan only. It does not approve that future plan or authorize implementation.
+**Current stage:** Stage 4, implementation and verification. Specification approval was the user’s `approved` message on 2026-10-27; separate plan approval was the later `PLEASE IMPLEMENT THIS PLAN:` message. The plan is saved at `docs/superpowers/plans/2026-10-27-batch-1-dialog-package-comparison.md`.
 
 After explicit specification approval, resolve this artifact by slug or exact path. A newly created plan must use `docs/superpowers/plans/2026-10-27-batch-1-dialog-package-comparison.md`, record its own Created/Updated dates and the same Slug, and explicitly reference this specification. Carry the release relationship, criterion mapping, deferred work, and execution endpoint into that plan and its completion notes. Do not create a separate roadmap or Batch 2 artifacts.
 

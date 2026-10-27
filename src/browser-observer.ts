@@ -1,5 +1,6 @@
 export function installObserver(options: { binding: string; state: string; maxObservations: number }): void {
   const global = window as unknown as Record<string, any>;
+  const documentRoot = document.documentElement;
   const refs = new WeakMap<Element, string>();
   const pending = new Set<Promise<void>>();
   const reported = new Set<string>();
@@ -50,6 +51,7 @@ export function installObserver(options: { binding: string; state: string; maxOb
     if (key) emit('key', target, key);
   };
   const sample = () => {
+    if (document.documentElement !== documentRoot) issue('unsupported-document-replacement', 'Document root was replaced; listeners may no longer cover this document.');
     if (lastFocus && !lastFocus.isConnected) { emit('removed', lastFocus); lastFocus = null; }
     if (document.activeElement !== lastFocus) { lastFocus = document.activeElement; emit('focus', lastFocus); }
   };

@@ -117,8 +117,8 @@ interface ObservationSession {
 
 `ObservationCapture` contains ordered observations, completeness, truncation, and contextual issues. Its format is private.
 
-- [ ] **Establish the execution branch after both approvals and saving the artifacts.** Inspect local changes, fetch `origin`, and fast-forward `main` only when safe. Create `feat/batch-1-dialog-package-comparison`. Preserve local edits; do not automatically stash, reset, or force updates. If divergence or overlapping changes prevents the update, request a ruling. Commit the unchanged release reference, approved Batch 1 specification, and approved plan on this branch.
-- [ ] **Add test prerequisites and failing browser tests.** Configure the pinned dependencies and Chromium project. Test these assertions against real browser events:
+- [x] **Establish the execution branch after both approvals and saving the artifacts.** Inspect local changes, fetch `origin`, and fast-forward `main` only when safe. Create `feat/batch-1-dialog-package-comparison`. Preserve local edits; do not automatically stash, reset, or force updates. If divergence or overlapping changes prevents the update, request a ruling. Commit the unchanged release reference, approved Batch 1 specification, and approved plan on this branch.
+- [x] **Add test prerequisites and failing browser tests.** Configure the pinned dependencies and Chromium project. Test these assertions against real browser events:
 
   ```ts
   assert.deepEqual(capture.keys, ['Tab', 'Shift+Tab', 'Enter', 'Space', 'Escape']);
@@ -128,10 +128,10 @@ interface ObservationSession {
   ```
 
   Also cover application-driven focus, body/document focus, removal of the focused element, and suppression of Space inside text-editing targets.
-- [ ] **Run the red check:** `npm run test:browser -- --grep observation`. Expected: failure caused by the missing observation implementation.
-- [ ] **Implement bounded observation.** Install listeners only in the current main document, after page setup. Assign browser sequence numbers before transport. Keep a bounded receiving buffer and report overflow on either side. Default to 1,000 observations; accept integer limits from 1 to 10,000. Descriptors use local element references, tag, and an allowlist of `id`, `name`, `type`, `role`, `tabindex`, `disabled`, and relevant `aria-*` state/label attributes. Exclude values and text content; cap attribute strings at 256 characters and disclose clipping. Detect observable navigation, frames, new pages, and shadow boundaries without claiming exhaustive detection.
-- [ ] **Run the green check:** `npm run test:browser -- --grep observation`. Expected: exit 0 with all observation cases passing and no retained secret. Cleanup must remove listeners/bindings and preserve already received evidence when the page closes.
-- [ ] **Commit:** `feat: add bounded keyboard and focus observation`.
+- [x] **Run the red check:** `npm run test:browser -- --grep observation`. Expected: failure caused by the missing observation implementation.
+- [x] **Implement bounded observation.** Install listeners only in the current main document, after page setup. Assign browser sequence numbers before transport. Keep a bounded receiving buffer and report overflow on either side. Default to 1,000 observations; accept integer limits from 1 to 10,000. Descriptors use local element references, tag, and an allowlist of `id`, `name`, `type`, `role`, `tabindex`, `disabled`, and relevant `aria-*` state/label attributes. Exclude values and text content; cap attribute strings at 256 characters and disclose clipping. Detect observable navigation, frames, new pages, and shadow boundaries without claiming exhaustive detection.
+- [x] **Run the green check:** `npm run test:browser -- --grep observation`. Expected: exit 0 with all observation cases passing and no retained secret. Cleanup must remove listeners/bindings and preserve already received evidence when the page closes.
+- [x] **Commit:** `feat: add bounded keyboard and focus observation`.
 
 ## Task 2: Opt-in fixture and failure captures [size: M | risk: data | mechanical: false | clear_pattern: true | objectively_verifiable: true | concerns: data]
 
@@ -164,7 +164,7 @@ Export `test`, extending native Playwright with a test-scoped `journey: Journey`
 
 **Internal boundary:** `captureFailureArtifacts(page, root, testInfo, options)` returns explicit per-artifact outcomes. The private attachment is named `a11y-journey.v1.json`.
 
-- [ ] **Write failing cases** for default captures, each independent disable switch, removed/ambiguous roots, closed pages, wrong-page/frame roots, invalid limits, repeated `start`, and fixture access without `start`. Verify:
+- [x] **Write failing cases** for default captures, each independent disable switch, removed/ambiguous roots, closed pages, wrong-page/frame roots, invalid limits, repeated `start`, and fixture access without `start`. Verify:
 
   ```ts
   assert.equal(payload.artifacts.screenshot.status, 'captured');
@@ -173,11 +173,11 @@ Export `test`, extending native Playwright with a test-scoped `journey: Journey`
   ```
 
   The test helper launches the installed Playwright CLI using argument arrays, collects native JSON and private attachments, and gives every child run a separate temporary output directory.
-- [ ] **Run the red check:** `npm run test:browser -- --grep fixture`. Expected: missing fixture/capture behavior fails.
-- [ ] **Implement opt-in lifecycle.** Fixture use marks the test as selected; `start` installs observation once. Call it after navigation/content setup and before journey actions. Reject malformed options contextually. Permit a root that mounts later; validate page/frame/document membership when resolvable. Never use `.first()` to resolve ambiguity.
-- [ ] **Implement teardown capture.** Finalize observations and capture on actual `failed`, `timedOut`, or `interrupted` status when practical. Screenshots and snapshots default to enabled, with a two-second timeout per operation. Use native test output paths, declared-root snapshots, and accurate start/end phase labels. Missing roots stay missing; empty snapshots stay explicitly empty. Capture and attachment errors become evidence issues and diagnostics, preserving the original native error.
-- [ ] **Run the green check:** `npm run test:browser -- --grep fixture`. Expected: exit 0; child failures remain the intended native failures, and capture controls affect only their declared capture type. Non-opted-in tests have no observation payload.
-- [ ] **Commit:** `feat: add opt-in journey fixture and failure captures`.
+- [x] **Run the red check:** `npm run test:browser -- --grep fixture`. Expected: missing fixture/capture behavior fails.
+- [x] **Implement opt-in lifecycle.** Fixture use marks the test as selected; `start` installs observation once. Call it after navigation/content setup and before journey actions. Reject malformed options contextually. Permit a root that mounts later; validate page/frame/document membership when resolvable. Never use `.first()` to resolve ambiguity.
+- [x] **Implement teardown capture.** Finalize observations and capture on actual `failed`, `timedOut`, or `interrupted` status when practical. Screenshots and snapshots default to enabled, with a two-second timeout per operation. Use native test output paths, declared-root snapshots, and accurate start/end phase labels. Missing roots stay missing; empty snapshots stay explicitly empty. Capture and attachment errors become evidence issues and diagnostics, preserving the original native error.
+- [x] **Run the green check:** `npm run test:browser -- --grep fixture`. Expected: exit 0; child failures remain the intended native failures, and capture controls affect only their declared capture type. Non-opted-in tests have no observation payload.
+- [x] **Commit:** `feat: add opt-in journey fixture and failure captures`.
 
 ## Task 3: Native outcomes and attempt isolation [size: M | risk: concurrency | mechanical: false | clear_pattern: true | objectively_verifiable: true | concerns: concurrency]
 
@@ -197,7 +197,7 @@ Export `test`, extending native Playwright with a test-scoped `journey: Journey`
 - `collectAttempt(test: TestCase, result: TestResult): AttemptEvidence`.
 - `AttemptEvidence` combines final native status, expected status, identity, executed steps/assertions, fixture payload, artifacts, and issues.
 
-- [ ] **Write failing unit/browser tests** for hard/soft assertions, no assertions, early failure, expected failure, unexpected pass, retry-then-pass, two-worker execution, repeat identity, missing/corrupt payload, and late teardown failure:
+- [x] **Write failing unit/browser tests** for hard/soft assertions, no assertions, early failure, expected failure, unexpected pass, retry-then-pass, two-worker execution, repeat identity, missing/corrupt payload, and late teardown failure:
 
   ```ts
   assert.deepEqual(attempts.map(a => a.actualStatus), ['failed', 'passed']);
@@ -206,11 +206,11 @@ Export `test`, extending native Playwright with a test-scoped `journey: Journey`
   assert.equal(new Set(artifactPaths).size, artifactPaths.length);
   ```
 
-- [ ] **Run the red checks:** `npm run test:unit` and `npm run test:browser -- --grep outcomes`. Expected: result aggregation/isolation tests fail.
-- [ ] **Implement result collection.** Retain native nesting and execution order from documented step hooks. Identify assertions by native category; preserve errors/messages without reconstructing expected/actual values. Do not copy `TestStep.params` wholesale. Use per-result storage and identities including project, test ID, repeat, and retry. Retain both actual and expected statuses.
-- [ ] **Reconcile fixture-time and final status.** If a later teardown fails, disclose that failure artifacts were not captured at that later point. A selected test without a payload is incomplete; an unselected test is omitted. Keep early-failure checks limited to those actually executed. Bound retained step records at 10,000 per attempt and diagnostic strings at 16 KiB, disclosing any clipping.
-- [ ] **Run the green checks:** `npm run test:unit` and `npm run test:browser -- --grep outcomes`. Expected: exit 0, with all attempts preserved and no cross-test evidence leakage.
-- [ ] **Commit:** `feat: retain native outcomes with isolated test attempts`.
+- [x] **Run the red checks:** `npm run test:unit` and `npm run test:browser -- --grep outcomes`. Expected: result aggregation/isolation tests fail.
+- [x] **Implement result collection.** Retain native nesting and execution order from documented step hooks. Identify assertions by native category; preserve errors/messages without reconstructing expected/actual values. Do not copy `TestStep.params` wholesale. Use per-result storage and identities including project, test ID, repeat, and retry. Retain both actual and expected statuses.
+- [x] **Reconcile fixture-time and final status.** If a later teardown fails, disclose that failure artifacts were not captured at that later point. A selected test without a payload is incomplete; an unselected test is omitted. Keep early-failure checks limited to those actually executed. Bound retained step records at 10,000 per attempt and diagnostic strings at 16 KiB, disclosing any clipping.
+- [x] **Run the green checks:** `npm run test:unit` and `npm run test:browser -- --grep outcomes`. Expected: exit 0, with all attempts preserved and no cross-test evidence leakage.
+- [x] **Commit:** `feat: retain native outcomes with isolated test attempts`.
 
 ## Task 4: Portable Markdown and visible reporting failures [size: M | risk: security | mechanical: false | clear_pattern: true | objectively_verifiable: true | concerns: security]
 
@@ -243,7 +243,7 @@ writeBundle(
 ): Promise<{ reportPath: string }>;
 ```
 
-- [ ] **Write failing tests** using HTML, Markdown links, multiline titles, backtick fences, path separators, and shell-like text. Test moving the bundle outside the checkout, unavailable attachments, malformed handoff, and a deterministic report-write failure caused by a file occupying the output-directory path:
+- [x] **Write failing tests** using HTML, Markdown links, multiline titles, backtick fences, path separators, and shell-like text. Test moving the bundle outside the checkout, unavailable attachments, malformed handoff, and a deterministic report-write failure caused by a file occupying the output-directory path:
 
   ```ts
   assert.equal(renderedIncludesInjectedLink, false);
@@ -252,11 +252,11 @@ writeBundle(
   assert.equal(failedWrite.exitCode, 1);
   ```
 
-- [ ] **Run the red checks:** `npm run test:unit` and `npm run test:browser -- --grep bundle`. Expected: escaping, portability, or write-failure checks fail.
-- [ ] **Implement rendering.** Use fixed report structure and safely delimited text blocks for application-provided titles, diagnostics, attributes, and reproduction text. Generated artifact links use fixed labels and generated filenames. Include identities, runtime context, native steps/assertions, observations, capture timing, limitations, and completeness. Keep event and native-step sequences distinct.
-- [ ] **Implement bundle output.** Default to `a11y-evidence/<unique-run-id>/report.md`; copy available artifacts under generated attempt identifiers with relative links. Preserve native traces when available. Never derive filesystem paths directly from test titles. Report unavailable files explicitly.
-- [ ] **Implement failure visibility and verify.** Missing/corrupt handoff or bundle/report-write failure emits a clear stderr diagnostic and makes an otherwise successful run fail; native test statuses remain unchanged. Capture limitations and truncation remain visible without rewriting native outcomes. Run the red-check commands again: expected exit 0 for the enclosing regression suite. A moved bundle must explain the basic failure without its trace.
-- [ ] **Commit:** `feat: produce portable and safely rendered Markdown evidence`.
+- [x] **Run the red checks:** `npm run test:unit` and `npm run test:browser -- --grep bundle`. Expected: escaping, portability, or write-failure checks fail.
+- [x] **Implement rendering.** Use fixed report structure and safely delimited text blocks for application-provided titles, diagnostics, attributes, and reproduction text. Generated artifact links use fixed labels and generated filenames. Include identities, runtime context, native steps/assertions, observations, capture timing, limitations, and completeness. Keep event and native-step sequences distinct.
+- [x] **Implement bundle output.** Default to `a11y-evidence/<unique-run-id>/report.md`; copy available artifacts under generated attempt identifiers with relative links. Preserve native traces when available. Never derive filesystem paths directly from test titles. Report unavailable files explicitly.
+- [x] **Implement failure visibility and verify.** Missing/corrupt handoff or bundle/report-write failure emits a clear stderr diagnostic and makes an otherwise successful run fail; native test statuses remain unchanged. Capture limitations and truncation remain visible without rewriting native outcomes. Run the red-check commands again: expected exit 0 for the enclosing regression suite. A moved bundle must explain the basic failure without its trace.
+- [x] **Commit:** `feat: produce portable and safely rendered Markdown evidence`.
 
 ## Task 5: Dialog journeys and credible stock baseline [size: M | risk: none | mechanical: false | clear_pattern: true | objectively_verifiable: true | concerns: none]
 
@@ -280,12 +280,12 @@ exerciseDialog(page: Page): Promise<void>;
 
 The shared journey contains ordinary native actions, named steps, and assertions. It does not call package recording APIs.
 
-- [ ] **Write failing conformance tests** requiring the correct case to pass and each broken case to fail inside its intended named assertion step. An earlier unrelated error or an unexpected pass must fail this verification.
-- [ ] **Run the red check:** `npm run test:browser -- --grep dialog-comparison`. Expected: missing examples or incorrect failure locations fail.
-- [ ] **Implement the semantic dialog fixture.** Use a named `role="dialog"` with semantic heading/buttons and a backdrop. The opener activates with Enter; initial focus is `Continue`; the last control is `Cancel`. Correct behavior wraps both Tab boundaries, dismisses on Escape, and restores the opener. The escaping variant disables only containment; the restoration variant omits only restoration. Use an attached `#dialog` locator as the declared snapshot root.
-- [ ] **Implement both execution paths.** Package tests add `journey.start({ root })`; stock tests use native fixtures/reporters. Both use identical journey assertions and synthetic fixtures. Stock failure attachments include a focus descriptor, screenshot, and scoped ARIA snapshot with capture timing. Enable native traces on both paths so expected failures retain traces. Stock configuration must not import the package reporter or instrumentation.
-- [ ] **Run the green checks:** the comparison regression command, `npm run demo:package`, and `npm run demo:stock`. Expected: correct cases pass; deliberately broken cases have actual failed assertions at the intended checks. Demonstration suites may exit 0 because those failures are expected, while unexpected passes fail the suite.
-- [ ] **Commit:** `feat: add dialog recipes and equivalent stock Playwright comparison`.
+- [x] **Write failing conformance tests** requiring the correct case to pass and each broken case to fail inside its intended named assertion step. An earlier unrelated error or an unexpected pass must fail this verification.
+- [x] **Run the red check:** `npm run test:browser -- --grep dialog-comparison`. Expected: missing examples or incorrect failure locations fail.
+- [x] **Implement the semantic dialog fixture.** Use a named `role="dialog"` with semantic heading/buttons and a backdrop. The opener activates with Enter; initial focus is `Continue`; the last control is `Cancel`. Correct behavior wraps both Tab boundaries, dismisses on Escape, and restores the opener. The escaping variant disables only containment; the restoration variant omits only restoration. Use an attached `#dialog` locator as the declared snapshot root.
+- [x] **Implement both execution paths.** Package tests add `journey.start({ root })`; stock tests use native fixtures/reporters. Both use identical journey assertions and synthetic fixtures. Stock failure attachments include a focus descriptor, screenshot, and scoped ARIA snapshot with capture timing. Enable native traces on both paths so expected failures retain traces. Stock configuration must not import the package reporter or instrumentation.
+- [x] **Run the green checks:** the comparison regression command, `npm run demo:package`, and `npm run demo:stock`. Expected: correct cases pass; deliberately broken cases have actual failed assertions at the intended checks. Demonstration suites may exit 0 because those failures are expected, while unexpected passes fail the suite.
+- [x] **Commit:** `feat: add dialog recipes and equivalent stock Playwright comparison`.
 
 ## Task 6: Packed consumer and compatibility evidence [size: M | risk: none | mechanical: false | clear_pattern: true | objectively_verifiable: true | concerns: none]
 
@@ -304,7 +304,7 @@ The shared journey contains ordinary native actions, named steps, and assertions
 - Compose an existing synthetic custom fixture with the package’s `test` using native `mergeTests`.
 - Configure the package reporter alongside native HTML/list reporting.
 
-- [ ] **Write failing package/consumer checks** for missing exports/declarations, accidental source imports, missing runtime files, and unsuccessful fixture composition:
+- [x] **Write failing package/consumer checks** for missing exports/declarations, accidental source imports, missing runtime files, and unsuccessful fixture composition:
 
   ```ts
   assert.equal(consumer.exitCode, 0);
@@ -313,11 +313,11 @@ The shared journey contains ordinary native actions, named steps, and assertions
   assert.equal(consumer.nativeAndEvidenceReportsExist, true);
   ```
 
-- [ ] **Run the red check:** `npm run verify:consumer`. Expected: packed installation or consumer integration fails before implementation.
-- [ ] **Implement packed installation.** The internal verification script creates `.artifacts/package`, invokes `npm pack --json --pack-destination .artifacts/package`, and installs that tarball into the separate consumer. Use subprocess argument arrays; no registry publication or public CLI is introduced.
-- [ ] **Run consumer verification.** The consumer type-checks and uses normal `playwright test` commands to exercise a correct dialog and a non-opted-in control test. Verify exports, peer integration, custom fixture availability, native reporter coexistence, and absence of evidence for the control. Move its evidence bundle to a temporary directory and check artifact links.
-- [ ] **Run the green checks:** `npm run verify:consumer` and `npm run test:unit`. Expected: exit 0. Record actual Node, npm, TypeScript, Playwright, Chromium, macOS version, and architecture; do not expand compatibility claims.
-- [ ] **Commit:** `test: verify packed consumer integration and portability`.
+- [x] **Run the red check:** `npm run verify:consumer`. Expected: packed installation or consumer integration fails before implementation.
+- [x] **Implement packed installation.** The internal verification script creates `.artifacts/package`, invokes `npm pack --json --pack-destination .artifacts/package`, and installs that tarball into the separate consumer. Use subprocess argument arrays; no registry publication or public CLI is introduced.
+- [x] **Run consumer verification.** The consumer type-checks and uses normal `playwright test` commands to exercise a correct dialog and a non-opted-in control test. Verify exports, peer integration, custom fixture availability, native reporter coexistence, and absence of evidence for the control. Move its evidence bundle to a temporary directory and check artifact links.
+- [x] **Run the green checks:** `npm run verify:consumer` and `npm run test:unit`. Expected: exit 0. Record actual Node, npm, TypeScript, Playwright, Chromium, macOS version, and architecture; do not expand compatibility claims.
+- [x] **Commit:** `test: verify packed consumer integration and portability`.
 
 ## Task 7: Comparison findings, documentation, and completion gate [size: M | risk: none | mechanical: false | clear_pattern: true | objectively_verifiable: true | concerns: none]
 
@@ -368,3 +368,7 @@ This plan was presented in Plan mode and saved on 2026-10-27 after the user expl
 Explicit approval authorizes Native implementation of this plan once both approved artifacts are saved and the Git preflight is satisfied. No implementation is authorized by the earlier specification approval alone.
 
 **Execution endpoint:** Finish Batch 1, its verification and sequential final review, record results and remaining release work, commit locally, then stop before Batch 2.
+
+## Execution notes
+
+Tasks 1–6 completed with observed task checks and local commits. Task 7 verification currently records 4 unit and 29 browser tests. The author comparison and release continuity are in `docs/batch-1-comparison.md` and `docs/batch-1-results.md`. External validation remains pending. Final sequential review is pending; Batch 2 remains deferred.
