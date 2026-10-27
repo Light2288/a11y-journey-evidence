@@ -19,7 +19,9 @@
     "typecheck": "npm run build && tsc -p tsconfig.json --noEmit",
     "test:browser": "npm run typecheck && playwright test --config tests/playwright.config.ts",
     "test:unit": "npm run typecheck && node --test tests/unit/*.test.ts",
-    "test": "npm run test:unit && npm run test:browser"
+    "test": "npm run test:unit && npm run test:browser",
+    "demo:package": "npm run build && playwright test --config examples/package/playwright.config.ts",
+    "demo:stock": "playwright test --config examples/stock/playwright.config.ts"
   },
   "peerDependencies": {
     "@playwright/test": "1.64.1"
@@ -36,7 +38,8 @@
     },
     "./reporter": {
       "types": "./dist/reporter.d.ts",
-      "import": "./dist/reporter.js"
+      "import": "./dist/reporter.js",
+      "default": "./dist/reporter.js"
     }
   }
 }
