@@ -4,7 +4,7 @@ export function installObserver(options: { binding: string; state: string; maxOb
   const refs = new WeakMap<Element, string>();
   const pending = new Set<Promise<void>>();
   const reported = new Set<string>();
-  const attributes = ['id', 'name', 'type', 'role', 'tabindex', 'disabled', 'aria-label', 'aria-labelledby', 'aria-expanded', 'aria-hidden', 'aria-modal', 'aria-selected', 'aria-checked', 'aria-disabled', 'aria-pressed'];
+  const attributes = ['id', 'name', 'type', 'role', 'tabindex', 'disabled', 'aria-label', 'aria-labelledby', 'aria-expanded', 'aria-hidden', 'aria-modal', 'aria-selected', 'aria-checked', 'aria-disabled', 'aria-pressed', 'aria-invalid', 'aria-describedby'];
   let nextRef = 0, sequence = 0, count = 0;
   let stopped = false, transportFailed = false;
   let lastFocus: Element | null = document.activeElement;
