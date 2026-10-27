@@ -1,0 +1,2 @@
+import { defineConfig } from '@playwright/test';
+export default defineConfig({testDir:'.',testMatch:'dialog.spec.ts',expect:{timeout:1500},reporter:[['list'],['json',{outputFile:'.artifacts/native.json'}],['html',{outputFolder:'.artifacts/html',open:'never'}],['a11y-journey-evidence/reporter',{outputDir:'.artifacts/evidence',reproductionCommand:'npm test'}]],outputDir:'.artifacts/results',use:{browserName:'chromium',trace:'on'}});
