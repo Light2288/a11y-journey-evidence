@@ -53,7 +53,15 @@ Release **AC-06–07** now have form-specific behavior and intended-failure evid
 
 ## Sequential final review
 
-Pending at this pre-review documentation checkpoint. The sole integrated gate will review the complete branch through specification review first, then quality review of the same immutable package only after a fresh specification PASS. Final identities, results, and any rulings/deferred findings will be recorded here before delivery.
+The sole integrated `personal-workflows:code-review` gate reviewed the complete 21-path branch diff and supporting source/evidence in one immutable package. Both reviewers recomputed the exact-byte hash and verified the same identities:
+
+- Gate run: `2194ea4c-1c58-4611-8fee-16ee6caac82b`.
+- Reviewed state: `98c22345329e3bc004af3508503d38b95ef511d9`.
+- Package SHA-256: `08deb5a9d30161060827d98c50f12366df14d85ae04ac967240809a4598ef031`.
+
+**Specification review: PASS**, using the managed light role (`gpt-6-luna`, high). It found the acceptance criteria and all five Review Focus conditions supported, with no missing or extra work. Only then did **quality review: PASS** run on the managed full role (`gpt-6.1-sol`, high), against the unchanged package and complete fresh specification report. It reviewed validation/correction, defect isolation, bounds, stock captures, child isolation, portability, consumer integration, and documentation. It found no Critical, Important, or Minor issues and no items declined for judgment within the approved review scope.
+
+No correction pass, new ruling, or new deferred minor was needed. The prior Space-key minor remains deferred below. The reviewers used supplied command evidence rather than independently rerunning the suites; quality did not visually inspect screenshot/trace binaries. No wider compatibility, screen-reader, conformance, or independent-usefulness conclusion follows. Post-gate edits record review/completion evidence only; they do not change reviewed product code.
 
 ## Evaluation, remaining work, and endpoint
 
