@@ -4,6 +4,8 @@ Created: 2026-10-27. Updated: 2026-10-27.
 
 Specification: [approved Batch 2](superpowers/specs/2026-10-27-batch-2-form-package-comparison.md). Plan: [approved implementation plan](superpowers/plans/2026-10-27-batch-2-form-package-comparison.md). The original release reference and both Batch 1 approved artifacts remain unchanged.
 
+Batch 2 implementation, verification, sequential review, and delivery records are complete. Work is retained locally on the approved feature branch.
+
 Batch 2 implements the form increment on `feat/batch-2-form-package-comparison`, based on merged Batch 1 at `af6bd05`. Native execution used the existing checkout at the full tier without switching the parent model. Separate scope, specification, and saved-plan approvals preceded implementation. No public API, export, option, dependency pin, private handoff version, or development package-version change was needed.
 
 ## Observed verification
@@ -28,6 +30,8 @@ Behavioral RED→GREEN evidence was also observed per task:
 - Task 2: both new descriptor checks failed while the attributes were absent; all eight observation cases then passed with bounded attributes, clipping disclosure, no retained field values/arbitrary attributes, and no printable Space.
 - Task 3: five comparison/portability cases failed before form demos and child-output isolation existed; all five then passed. Combined/concurrent runs retained scoped roots, unique child HTML directories, traces, and native actual outcomes. Existing dialog source and regressions remained intact.
 - Task 4: the extended consumer check failed with `2 !== 3` before its form test existed; three external consumer tests then passed. Four unit tests and the full 41-browser regression suite passed afterward.
+
+The post-review task-completion check reran the exact `npm test` command and exited 0 with `ℹ pass 4` and `41 passed (24.4s)`. The task ledger records all five tasks complete; its final range is `0bbab33..eb288e0`. No implementation rulings, new deferred minors, or corrective code changes arose. Final documentation-only records were whitespace-checked before the local completion commit.
 
 ## Tested environment
 
@@ -71,4 +75,12 @@ The carryover **deferred minor** remains: Space activation on a noneditable butt
 
 Remaining release decisions include disposition of that minor, independent usefulness evaluation if desired, report-verbosity tradeoffs, and explicit release-readiness/acceptance and distribution decisions. Any broader compatibility or CI work needs new evidence and authorized scope. Cross-pattern local verification is now observed; untested browser/host combinations remain gaps, not promises.
 
-Execution stops after this increment's verification, sequential review, durable records, and local commits. No push, merge, registry publication, outreach, or subsequent increment is performed.
+Execution is complete at this increment's endpoint: verified implementation, passing sequential review, durable records, and local commits. No push, merge, registry publication, outreach, or subsequent increment is performed.
+
+## Preserved reference integrity
+
+Final SHA-256 checks match the recorded original bytes:
+
+- Release specification: `b5262a6d939f745dbff6b28fd5f4b351727a5734ea7ad73ee61b35fc8a5b70fa`.
+- Batch 1 specification: `64af20376c0e1858953a4a999cfd22aa90550c422f3cba6c04675d7310da6215`.
+- Batch 1 plan: `64a68faf3ee7c3b4f0471d905190fde22b9350464c9e8aae5a81ae3e9dfe6874`.
