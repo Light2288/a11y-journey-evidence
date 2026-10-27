@@ -1,0 +1,12 @@
+{
+  "name": "journey-evidence-consumer",
+  "private": true,
+  "type": "module",
+  "scripts": { "typecheck": "tsc --noEmit", "test": "playwright test" },
+  "devDependencies": {
+    "a11y-journey-evidence": "file:../../.artifacts/package/a11y-journey-evidence-0.1.0-batch.1.tgz",
+    "@playwright/test": "1.64.1",
+    "typescript": "7.0.2",
+    "@types/node": "24.19.2"
+  }
+}

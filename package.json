@@ -21,7 +21,8 @@
     "test:unit": "npm run typecheck && node --test tests/unit/*.test.ts",
     "test": "npm run test:unit && npm run test:browser",
     "demo:package": "npm run build && playwright test --config examples/package/playwright.config.ts",
-    "demo:stock": "playwright test --config examples/stock/playwright.config.ts"
+    "demo:stock": "playwright test --config examples/stock/playwright.config.ts",
+    "verify:consumer": "npm run build && node scripts/verify-consumer.mjs"
   },
   "peerDependencies": {
     "@playwright/test": "1.64.1"
