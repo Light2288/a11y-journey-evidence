@@ -148,3 +148,17 @@ Support is limited to Chromium, one page/main document, ordinary light DOM, and 
 See [the form author comparison](https://github.com/Light2288/a11y-journey-evidence/blob/main/docs/batch-2-comparison.md), [Batch 2 verification and remaining release work](https://github.com/Light2288/a11y-journey-evidence/blob/main/docs/batch-2-results.md), and [the Batch 2 specification](https://github.com/Light2288/a11y-journey-evidence/blob/main/docs/superpowers/specs/2026-10-27-batch-2-form-package-comparison.md). [Batch 1's comparison](https://github.com/Light2288/a11y-journey-evidence/blob/main/docs/batch-1-comparison.md) and [results](https://github.com/Light2288/a11y-journey-evidence/blob/main/docs/batch-1-results.md) remain historical records. **External validation is pending.**
 
 The v0.1.0 scope includes both completed batches and the Space-key correction. The linked delivery records preserve their original findings and decisions; current release preparation and publication are tracked separately. These checks support the documented experimental scope and do not establish external usefulness, screen-reader behavior, or accessibility conformance. Further product work needs its own approved scope and artifacts.
+
+## Documentation development
+
+The English documentation uses VitePress. With Node 24.21.0 and npm 11.19.0:
+
+```sh
+npm ci
+npm run docs:dev
+npm run docs:build
+npm run docs:preview
+npm run docs:test
+```
+
+Production preview: `http://localhost:4173/a11y-journey-evidence/`. Browser checks target the built site; build before running them. Documentation build output stays outside the npm distribution.

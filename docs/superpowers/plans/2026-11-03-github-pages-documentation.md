@@ -98,14 +98,14 @@ Each condition has a check in its owning task below.
 - Browser configuration uses `DOCS_BASE_URL` when supplied; otherwise starts the local production preview with server reuse disabled.
 - VitePress `buildEnd` writes `build-info.json` inside built output, containing `sourceCommit` and documented package version. Obtain the commit from `GITHUB_SHA` in Actions and Git locally.
 
-- [ ] Identify both approved artifacts and their separate approval messages. Save this plan before implementation and update only this pair’s lifecycle metadata.
-- [ ] Inspect status, fetch origin and safely fast-forward main when needed. Preserve the uncommitted artifacts. Create `docs/github-pages-documentation`; inspect any existing branch instead of resetting it. Commit the approved pair using explicit paths.
-- [ ] Add the pinned development dependency, command prerequisites and failing route checks. Require the production homepage and getting-started route to return 200, load their assets and identify experimental v0.1.0. Require a missing route to return 404 with a working home link.
-- [ ] Run the red checks: `npm run docs:build` and `npm run docs:test -- --grep subpath`. Expected: failure attributable to the missing site implementation.
-- [ ] Implement the standard-theme configuration, English metadata, fixed project base, local search, minimal landing page and initial getting-started page. Keep `ignoreDeadLinks` disabled and `cleanUrls` false. Configure navigation/sidebar around the approved reader tasks.
-- [ ] Add build metadata through the supported build hook. Do not expose environment variables or local paths.
-- [ ] Run `npm run docs:build` and `npm run docs:test -- --grep subpath`. Expected: exit 0; direct routes, assets and 404 recovery work under the production base.
-- [ ] Commit the site foundation and tooling with explicit paths.
+- [x] Identify both approved artifacts and their separate approval messages. Save this plan before implementation and update only this pair’s lifecycle metadata.
+- [x] Inspect status, fetch origin and safely fast-forward main when needed. Preserve the uncommitted artifacts. Create `docs/github-pages-documentation`; inspect any existing branch instead of resetting it. Commit the approved pair using explicit paths.
+- [x] Add the pinned development dependency, command prerequisites and failing route checks. Require the production homepage and getting-started route to return 200, load their assets and identify experimental v0.1.0. Require a missing route to return 404 with a working home link.
+- [x] Run the red checks: `npm run docs:build` and `npm run docs:test -- --grep subpath`. Expected: failure attributable to the missing site implementation.
+- [x] Implement the standard-theme configuration, English metadata, fixed project base, local search, minimal landing page and initial getting-started page. Keep `ignoreDeadLinks` disabled and `cleanUrls` false. Configure navigation/sidebar around the approved reader tasks.
+- [x] Add build metadata through the supported build hook. Do not expose environment variables or local paths.
+- [x] Run `npm run docs:build` and `npm run docs:test -- --grep subpath`. Expected: exit 0; direct routes, assets and 404 recovery work under the production base.
+- [x] Commit the site foundation and tooling with explicit paths.
 
 ### Task 2: Verify published-package examples and write onboarding/recipes [size: M | risk: none | mechanical: false | clear_pattern: true | objectively_verifiable: true | concerns: none]
 
