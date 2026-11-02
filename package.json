@@ -25,7 +25,9 @@
     "docs:dev": "vitepress dev site",
     "docs:build": "vitepress build site",
     "docs:preview": "vitepress preview site --port 4173",
-    "docs:test": "playwright test --config tests/docs/playwright.config.ts"
+    "docs:test": "playwright test --config tests/docs/playwright.config.ts",
+    "docs:test:unit": "node --test tests/docs/*.test.mjs",
+    "docs:verify-examples": "node scripts/verify-docs-examples.mjs"
   },
   "peerDependencies": {
     "@playwright/test": "1.64.1"

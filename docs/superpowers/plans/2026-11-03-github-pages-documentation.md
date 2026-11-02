@@ -124,7 +124,7 @@ Each condition has a check in its owning task below.
 - Verifier saves native reports, evidence bundles and provenance under `.artifacts/docs-examples/`.
 - Markdown imports authoritative example files using VitePress code-snippet imports.
 
-- [ ] Write failing verifier tests rejecting an unrelated setup/assertion failure, an unexpected pass and a missing case. Pin expected failure locations:
+- [x] Write failing verifier tests rejecting an unrelated setup/assertion failure, an unexpected pass and a missing case. Pin expected failure locations:
 
   | Case | Required failing step/message |
   | --- | --- |
@@ -133,15 +133,15 @@ Each condition has a check in its owning task below.
   | Form missing association | `Declared error associations` / `Association: Name describes its visible error` |
   | Form failed error focus | `Declared invalid-submit focus` / `Error focus: Name is the first invalid field` |
 
-- [ ] Run `npm run docs:test:unit`. Expected: red because the verifier is absent or incomplete.
-- [ ] Implement the self-contained consumer using the released synthetic fixtures/native journeys, with source provenance. Keep their behavior and named assertions intact. Compose a synthetic custom fixture through `mergeTests`; use native and package reporters together.
-- [ ] Mark the four deliberate regressions as expected failures. Keep both correct journeys and the unselected control as ordinary passing tests. Start observation after setup, with the appropriate attached root.
-- [ ] Implement external-directory verification: copy only the documentation consumer, install from the official registry, typecheck and run its normal Playwright command. Verify module resolution and lockfile provenance refer to the installed npm package. Use subprocess argument arrays.
-- [ ] Require exactly seven cases: two actual correct passes, four actual intended failures and one passing unselected control. Inspect named steps and native diagnostics, reporter coexistence, composed fixture availability and control omission from evidence. Preserve generated output before removing temporary installation files.
-- [ ] Write complete fresh-project instructions and existing-project integration guidance. Import executable source files into code examples; include every required file or a clear link to its complete contents. Explain browser installation, report locations and expected-failure exit behavior.
-- [ ] Document each correct recipe and both variants, linking released source. Identify chosen focus and validation behavior as example policies.
-- [ ] Run `npm run docs:test:unit` and `npm run docs:verify-examples`. Expected: exit 0; the proof identifies npm 0.1.0, seven verified cases and generated native/evidence reports.
-- [ ] Commit the consumer, verification and onboarding/recipes using explicit paths.
+- [x] Run `npm run docs:test:unit`. Expected: red because the verifier is absent or incomplete.
+- [x] Implement the self-contained consumer using the released synthetic fixtures/native journeys, with source provenance. Keep their behavior and named assertions intact. Compose a synthetic custom fixture through `mergeTests`; use native and package reporters together.
+- [x] Mark the four deliberate regressions as expected failures. Keep both correct journeys and the unselected control as ordinary passing tests. Start observation after setup, with the appropriate attached root.
+- [x] Implement external-directory verification: copy only the documentation consumer, install from the official registry, typecheck and run its normal Playwright command. Verify module resolution and lockfile provenance refer to the installed npm package. Use subprocess argument arrays.
+- [x] Require exactly seven cases: two actual correct passes, four actual intended failures and one passing unselected control. Inspect named steps and native diagnostics, reporter coexistence, composed fixture availability and control omission from evidence. Preserve generated output before removing temporary installation files.
+- [x] Write complete fresh-project instructions and existing-project integration guidance. Import executable source files into code examples; include every required file or a clear link to its complete contents. Explain browser installation, report locations and expected-failure exit behavior.
+- [x] Document each correct recipe and both variants, linking released source. Identify chosen focus and validation behavior as example policies.
+- [x] Run `npm run docs:test:unit` and `npm run docs:verify-examples`. Expected: exit 0; the proof identifies npm 0.1.0, seven verified cases and generated native/evidence reports.
+- [x] Commit the consumer, verification and onboarding/recipes using explicit paths.
 
 ### Task 3: Publish inspected walkthroughs and complete the reference [size: M | risk: data | mechanical: false | clear_pattern: true | objectively_verifiable: true | concerns: data]
 
