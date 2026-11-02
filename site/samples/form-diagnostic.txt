@@ -1,0 +1,8 @@
+Error: Association: Name describes its visible error
+
+expect(locator).toHaveAccessibleDescription(expected) failed
+
+Locator:  getByRole('textbox', { name: 'Name', exact: true })
+Expected: "Enter a name."
+Received: ""
+Timeout:  1000ms

@@ -1,0 +1,11 @@
+1 focus e1 body {}
+2 key Tab e1 body {}
+3 focus e2 input {"id":"name","name":"name","type":"text","aria-invalid":"false"}
+4 key Tab e2 input {"id":"name","name":"name","type":"text","aria-invalid":"false"}
+5 focus e1 body {}
+6 focus e3 input {"id":"team","name":"team","type":"text","aria-invalid":"false"}
+7 key Tab e3 input {"id":"team","name":"team","type":"text","aria-invalid":"false"}
+8 focus e1 body {}
+9 focus e4 button {"id":"submit","type":"submit"}
+10 key Enter e4 button {"id":"submit","type":"submit"}
+11 focus e2 input {"id":"name","name":"name","type":"text","aria-invalid":"true"}

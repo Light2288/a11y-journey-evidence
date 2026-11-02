@@ -1,0 +1,10 @@
+- form "Team request":
+  - heading "Team request" [level=1]
+  - paragraph: Synthetic details; no personal data.
+  - text: Name
+  - textbox "Name" [invalid]
+  - paragraph: Enter a name.
+  - text: Team
+  - textbox "Team" [invalid]
+  - paragraph: Enter a team.
+  - button "Submit"

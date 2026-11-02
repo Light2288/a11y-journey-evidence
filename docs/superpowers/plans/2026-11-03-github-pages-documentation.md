@@ -157,16 +157,16 @@ Each condition has a check in its owning task below.
 - Import diagnostic/observation/ARIA excerpts as literal code snippets.
 - Publish only the two selected screenshots and curated text excerpts. Keep raw bundles private to local ignored output.
 
-- [ ] Write failing browser checks for walkthrough routes and usable screenshot/ARIA evidence. Add an adversarial check that builds a temporary site copy with hostile sample text containing raw HTML, a Markdown link and backtick fences.
-- [ ] Run `npm run docs:check`. Expected: walkthrough checks fail because the content/assets are missing.
-- [ ] Inspect the selected generated screenshots, snapshots and reports. Curate excerpts preserving actual failure meaning, focus observations, sequence and teardown phase. Record source version, generation context and editorial omissions; inspect assets visually before publication.
-- [ ] Write both walkthroughs, explaining the native failed expectation, relevant evidence, reproduction command and incomplete/unexecuted portions. Link each walkthrough to its recipe and evidence-reading guidance.
-- [ ] Complete the API/reference from the released exports and behavior. Cover fixture options/defaults, lifecycle, reporter options, allowlisted attributes, observation/diagnostic bounds and artifact outcomes. Do not advertise `JourneyReporterOptions` as a named root export.
-- [ ] Explain actual versus expected status, retries, no/early assertions, not-started fixtures, missing/empty captures, late teardown failures, separate event/step order and whole-directory bundle sharing.
-- [ ] Write a current stock comparison synthesis using existing author findings. Explain native capabilities and ownership costs fairly; label historical sources and external validation pending. Preserve the historical files.
-- [ ] Complete troubleshooting, tested-toolchain and data-limit guidance. Include no general sanitization, screen-reader, conformance, broader compatibility or measured productivity claims.
-- [ ] Run `npm run docs:check`. Expected: exit 0. Hostile text remains literal, creates no injected link/element and executes no script. Built output excludes private run data and unintended engineering routes.
-- [ ] Commit the selected samples and documentation with explicit paths.
+- [x] Write failing browser checks for walkthrough routes and usable screenshot/ARIA evidence. Add an adversarial check that builds a temporary site copy with hostile sample text containing raw HTML, a Markdown link and backtick fences.
+- [x] Run `npm run docs:check`. Expected: walkthrough checks fail because the content/assets are missing.
+- [x] Inspect the selected generated screenshots, snapshots and reports. Curate excerpts preserving actual failure meaning, focus observations, sequence and teardown phase. Record source version, generation context and editorial omissions; inspect assets visually before publication.
+- [x] Write both walkthroughs, explaining the native failed expectation, relevant evidence, reproduction command and incomplete/unexecuted portions. Link each walkthrough to its recipe and evidence-reading guidance.
+- [x] Complete the API/reference from the released exports and behavior. Cover fixture options/defaults, lifecycle, reporter options, allowlisted attributes, observation/diagnostic bounds and artifact outcomes. Do not advertise `JourneyReporterOptions` as a named root export.
+- [x] Explain actual versus expected status, retries, no/early assertions, not-started fixtures, missing/empty captures, late teardown failures, separate event/step order and whole-directory bundle sharing.
+- [x] Write a current stock comparison synthesis using existing author findings. Explain native capabilities and ownership costs fairly; label historical sources and external validation pending. Preserve the historical files.
+- [x] Complete troubleshooting, tested-toolchain and data-limit guidance. Include no general sanitization, screen-reader, conformance, broader compatibility or measured productivity claims.
+- [x] Run `npm run docs:check`. Expected: exit 0. Hostile text remains literal, creates no injected link/element and executes no script. Built output excludes private run data and unintended engineering routes.
+- [x] Commit the selected samples and documentation with explicit paths.
 
 ### Task 4: Verify navigation, search, responsive reading and distribution boundaries [size: M | risk: none | mechanical: false | clear_pattern: true | objectively_verifiable: true | concerns: none]
 

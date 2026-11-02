@@ -1,0 +1,11 @@
+1 focus e1 body {}
+2 key Tab e1 body {}
+3 focus e2 button {"id":"opener"}
+4 key Enter e2 button {"id":"opener"}
+5 focus e3 button {"id":"continue"}
+6 key Tab e3 button {"id":"continue"}
+7 focus e1 body {}
+8 focus e4 button {"id":"cancel"}
+9 key Tab e4 button {"id":"cancel"}
+10 focus e1 body {}
+11 focus e5 button {"id":"after"}
