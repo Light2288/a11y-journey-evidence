@@ -280,3 +280,7 @@ Each condition has a check in its owning task below.
 **Approval authorizes:** Native implementation of the approved increment, including local commits, required review and scoped Pages configuration. Branch pushes and merges remain user-controlled.
 
 **Execution endpoint:** Reviewed documentation deployed from merged main, verified publicly, with durable results and local outcome commits. Live completion remains pending until the user-controlled merge; then resume this increment and stop before personal-site work.
+
+## Execution notes — 2026-11-03
+
+Tasks 1–5 are complete and locally committed. Task 6 final local commands all passed; specification review then returned BLOCKED because the immutable package lacked reviewable contents of the two public PNGs (hashes/inspection statements alone were supplied). Quality review was not dispatched, and Task 7 Pages configuration/deployment remains pending. See [delivery record](../../github-pages-results.md) for exact evidence and review identity. Preserve the execution ledger and scratch review state while resuming this increment; do not mark local-ready review or live delivery complete.

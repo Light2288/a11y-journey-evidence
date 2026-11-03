@@ -6,7 +6,7 @@ Scope: the approved [specification](superpowers/specs/2026-11-03-github-pages-do
 
 ## Delivery state
 
-Local implementation and verification are ready for sequential review. Review and Pages configuration are recorded below when observed. PR checks, production deployment and live verification are **pending the user-controlled push and merge**. No public-site completion is claimed.
+Local implementation and verification passed. The specification review is blocked on missing image content in the review package; the quality stage and Pages configuration have not run. PR checks, production deployment and live verification are **pending the user-controlled push and merge**. No public-site completion is claimed.
 
 The English VitePress site covers onboarding, native fixture composition, dialog/form recipes, evidence interpretation, API, stock comparison, limits and troubleshooting. It builds only `site/`, with the production base `/a11y-journey-evidence/` and `.html` routes. Target URL: <https://light2288.github.io/a11y-journey-evidence/>.
 
@@ -50,7 +50,11 @@ Only two visually inspected synthetic PNGs and selected literal text excerpts ar
 
 ## Review and rollout
 
-Integrated sequential specification/quality gate: pending. Future deployment evidence remains unobserved during local review; it is not a missing implementation claim.
+Integrated sequential gate: **specification review BLOCKED; quality not dispatched**. Package identity and hash were verified, but its image entries contained hashes/sizes and the author's visual-inspection statements without reviewable PNG contents. The reviewer cannot independently assess the two synthetic public samples from that package. This is a review-input deficiency, not a reported product defect. Resume with reviewable image evidence before proceeding to quality or Pages configuration.
+
+Reviewed commit: `e24f183e1abfa3ec869ee0907c35b29cbc93b8dc`. Gate ID: `pages-ddd17307-ee55-4094-88a5-92c41dbdd595`. Reviewed-state ID: `e24f183e1abfa3ec869ee0907c35b29cbc93b8dc-25f1ae59-9535-4722-8302-3e2ad58bfd6b`. Package SHA-256: `5b578eac760a2aaa38fb8d71512c663988913a776e51aa1382a730d26e5a128f`.
+
+Future deployment evidence remains unobserved during local review; it is not a missing implementation claim.
 
 The workflow uses read-only PR builds, pinned action commits, main-only upload of `site/.vitepress/dist/`, and Pages/OIDC write permission confined to the deployment job. It does not run package examples on Linux or broaden package compatibility claims. Actual workflow behavior still requires observation after publication/merge.
 
