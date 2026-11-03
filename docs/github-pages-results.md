@@ -6,7 +6,7 @@ Scope: the approved [specification](superpowers/specs/2026-11-03-github-pages-do
 
 ## Delivery state
 
-Local implementation and verification passed. The specification review is blocked on missing image content in the review package; the quality stage and Pages configuration have not run. PR checks, production deployment and live verification are **pending the user-controlled push and merge**. No public-site completion is claimed.
+Local implementation and verification passed, and the integrated sequential specification/quality review passed with one deferred Minor finding. Pages configuration is the next authorized step. PR checks, production deployment and live verification are **pending the user-controlled push and merge**. No public-site completion is claimed.
 
 The English VitePress site covers onboarding, native fixture composition, dialog/form recipes, evidence interpretation, API, stock comparison, limits and troubleshooting. It builds only `site/`, with the production base `/a11y-journey-evidence/` and `.html` routes. Target URL: <https://light2288.github.io/a11y-journey-evidence/>.
 
@@ -50,11 +50,15 @@ Only two visually inspected synthetic PNGs and selected literal text excerpts ar
 
 ## Review and rollout
 
-Integrated sequential gate: **specification review BLOCKED; quality not dispatched**. Package identity and hash were verified, but its image entries contained hashes/sizes and the author's visual-inspection statements without reviewable PNG contents. The reviewer cannot independently assess the two synthetic public samples from that package. This is a review-input deficiency, not a reported product defect. Resume with reviewable image evidence before proceeding to quality or Pages configuration.
+Integrated sequential gate: **SPEC REVIEW: PASS, then QUALITY REVIEW: PASS**, on the same immutable corrected package. No Critical or Important findings; one Minor finding is deferred under the enclosing review policy.
 
-Reviewed commit: `e24f183e1abfa3ec869ee0907c35b29cbc93b8dc`. Gate ID: `pages-ddd17307-ee55-4094-88a5-92c41dbdd595`. Reviewed-state ID: `e24f183e1abfa3ec869ee0907c35b29cbc93b8dc-25f1ae59-9535-4722-8302-3e2ad58bfd6b`. Package SHA-256: `5b578eac760a2aaa38fb8d71512c663988913a776e51aa1382a730d26e5a128f`.
+The initial attempt stopped BLOCKED because the package supplied image hashes and inspection statements without image bytes. The corrected evidence package supplied complete PNG bytes; both reviewers verified those bytes and visually inspected the images. The earlier package was left unchanged. This resumed the same logical review seat; it did not add a generic review or another fix loop.
 
-Future deployment evidence remains unobserved during local review; it is not a missing implementation claim.
+Reviewed commit: `4a71a592ab54ae43d71d0c5701c007912eef7410`. Gate ID: `pages-0bb3b4e3-b5dc-439a-9626-c1495de33c9d`. Reviewed-state ID: `4a71a592ab54ae43d71d0c5701c007912eef7410-7c872470-11d7-4d50-99d7-fd1dc039117e`. Package SHA-256: `eae9e33b47bb174027ae0ffc793bbf058915f0937842252a35b52eecf0c6cdbd`. Both reports echoed matching identities. All 48 changed files and all five Review Focus conditions were reviewed.
+
+**Deferred Minor:** deployment-only concurrency allows overlapping main builds to finish out of order and potentially deploy an older artifact last. No rollback was observed. A later workflow change can serialize build through deployment using a ref-specific workflow concurrency group. The current rollout must still compare the publicly served SHA with the intended deployment commit; this finding is not a live-completion claim.
+
+The review set aside future Pages/CI/public outcomes, broader unchanged package compatibility, successful npm website access (HTTP 403), and the coordinator's final outcome recording. Future outcomes remain explicitly pending; existing host limits and the website limitation remain disclosed; this update records the actual gate result.
 
 The workflow uses read-only PR builds, pinned action commits, main-only upload of `site/.vitepress/dist/`, and Pages/OIDC write permission confined to the deployment job. It does not run package examples on Linux or broaden package compatibility claims. Actual workflow behavior still requires observation after publication/merge.
 

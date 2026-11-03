@@ -225,9 +225,9 @@ Each condition has a check in its owning task below.
 - [x] Run final local verification: `npm test`, `npm run docs:verify-examples`, `npm run docs:check`, `npm pack --dry-run --json` and `git diff --check`. Record exact commands, exits, decisive outputs and actual tool/browser/host versions.
 - [x] Inspect rendered desktop/mobile pages and the selected public evidence images. Check installation/source/release and historical-reference links against their actual destinations.
 - [x] Record sample provenance, the current author-assessment status and external validation pending. Mark PR execution, deployment and live verification pending.
-- [ ] Commit intended implementation/documentation changes, then invoke `personal-workflows:code-review` once in integrated mode: specification review followed by quality review on the same review state.
-- [ ] Resolve findings through the prescribed loop, rerunning affected checks. Do not add another generic final review.
-- [ ] Record the gate outcome and local-ready state. The next task may configure Pages, but full completion remains dependent on the user-controlled merge.
+- [x] Commit intended implementation/documentation changes, then invoke `personal-workflows:code-review` once in integrated mode: specification review followed by quality review on the same review state.
+- [x] Resolve findings through the prescribed loop, rerunning affected checks. Do not add another generic final review.
+- [x] Record the gate outcome and local-ready state. The next task may configure Pages, but full completion remains dependent on the user-controlled merge.
 
 ### Task 7: Configure Pages, verify delivery after merge and record the endpoint [size: M | risk: other | mechanical: false | clear_pattern: true | objectively_verifiable: true | concerns: auth]
 
@@ -283,4 +283,4 @@ Each condition has a check in its owning task below.
 
 ## Execution notes — 2026-11-03
 
-Tasks 1–5 are complete and locally committed. Task 6 final local commands all passed; specification review then returned BLOCKED because the immutable package lacked reviewable contents of the two public PNGs (hashes/inspection statements alone were supplied). Quality review was not dispatched, and Task 7 Pages configuration/deployment remains pending. See [delivery record](../../github-pages-results.md) for exact evidence and review identity. Preserve the execution ledger and scratch review state while resuming this increment; do not mark local-ready review or live delivery complete.
+Tasks 1–6 are locally complete and committed. All final local commands passed. The initial specification attempt stopped BLOCKED on missing PNG bytes in its review package; a corrected evidence package resolved that input deficiency. Sequential specification and quality reviews then passed with matching identities and one deferred Minor scheduling risk. Task 7 Pages preparation follows; deployment and live verification remain pending the user-controlled merge. See [delivery record](../../github-pages-results.md) for evidence and review identity. Preserve the execution ledger while rollout is pending; do not claim live delivery complete.
