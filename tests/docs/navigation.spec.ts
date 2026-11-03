@@ -1,5 +1,14 @@
 import { test, expect, type Page, type Locator } from '@playwright/test';
 
+async function openInteractivePage(page: Page, route: string) {
+  await page.goto(route);
+  // Public HTML can finish loading before VitePress hydrates its event handlers.
+  // Vue sets this marker after mount; keep it test-only and tied to the pinned theme.
+  await page.waitForFunction(() => Boolean(
+    (document.getElementById('app') as (HTMLElement & { __vue_app__?: unknown }) | null)?.__vue_app__,
+  ));
+}
+
 async function tabTo(page: Page, target: Locator) {
   await expect(target).toBeVisible();
   for (let count = 0; count < 50; count++) {
@@ -10,14 +19,14 @@ async function tabTo(page: Page, target: Locator) {
 }
 
 test('live keyboard skip and main navigation reach recipe content', async ({ page }) => {
-  await page.goto('getting-started.html');
+  await openInteractivePage(page, 'getting-started.html');
   await page.keyboard.press('Tab');
   await expect(page.getByRole('link', { name: 'Skip to content' })).toBeFocused();
   await page.keyboard.press('Enter');
   await expect(page.locator('#VPContent')).toBeFocused();
   await page.keyboard.press('Tab');
   expect(await page.evaluate(() => document.querySelector('#VPContent')!.contains(document.activeElement))).toBe(true);
-  await page.goto('');
+  await openInteractivePage(page, '');
   await tabTo(page, page.getByRole('navigation', { name: 'Main Navigation' }).getByRole('link', { name: 'Recipes', exact: true }));
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(/\/recipes\/dialog\.html$/);
@@ -25,7 +34,7 @@ test('live keyboard skip and main navigation reach recipe content', async ({ pag
 });
 
 test('live local search selects a result and restores focus on dismissal', async ({ page }) => {
-  await page.goto('');
+  await openInteractivePage(page, '');
   const button = page.getByRole('button', { name: 'Search', exact: true });
   await tabTo(page, button); await page.keyboard.press('Enter');
   const input = page.getByRole('searchbox', { name: 'Search documentation', exact: true });
@@ -45,7 +54,7 @@ test('live local search selects a result and restores focus on dismissal', async
 
 test('live mobile menu opens, closes and follows a recipe using keyboard', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
-  await page.goto('');
+  await openInteractivePage(page, '');
   const button = page.getByRole('button', { name: 'mobile navigation', exact: true });
   await tabTo(page, button); await page.keyboard.press('Enter');
   await expect(button).toHaveAttribute('aria-expanded', 'true');
@@ -71,3 +80,20 @@ for (const width of [375, 1280]) {
     await page.screenshot({ path: info.outputPath(`reference-${width}.png`) });
   });
 }
+
+test('interactive checks wait for hydration with a delayed initial page module', async ({ page }) => {
+  await page.route(/getting-started\.md\.[^/]+\.lean\.js$/, async route => {
+    // Model the public host's asynchronous page-module load, independently of test speed.
+    await new Promise(resolve => setTimeout(resolve, 400));
+    await route.continue();
+  });
+  await openInteractivePage(page, 'getting-started.html');
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('link', { name: 'Skip to content' })).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('#VPContent')).toBeFocused();
+  const button = page.getByRole('button', { name: 'Search', exact: true });
+  await tabTo(page, button);
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('searchbox', { name: 'Search documentation', exact: true })).toBeFocused();
+});
