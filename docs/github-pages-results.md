@@ -6,7 +6,7 @@ Scope: the approved [specification](superpowers/specs/2026-11-03-github-pages-do
 
 ## Delivery state
 
-Local implementation and verification passed, and the integrated sequential specification/quality review passed with one deferred Minor finding. Pages configuration is the next authorized step. PR checks, production deployment and live verification are **pending the user-controlled push and merge**. No public-site completion is claimed.
+Local implementation and verification passed, and the integrated sequential specification/quality review passed with one deferred Minor finding. Pages is configured for GitHub Actions, and the branch is ready for the user-controlled push, PR and merge. PR checks, production deployment and live verification are **pending the user-controlled push and merge**. No public-site completion is claimed.
 
 The English VitePress site covers onboarding, native fixture composition, dialog/form recipes, evidence interpretation, API, stock comparison, limits and troubleshooting. It builds only `site/`, with the production base `/a11y-journey-evidence/` and `.html` routes. Target URL: <https://light2288.github.io/a11y-journey-evidence/>.
 
@@ -62,7 +62,16 @@ The review set aside future Pages/CI/public outcomes, broader unchanged package 
 
 The workflow uses read-only PR builds, pinned action commits, main-only upload of `site/.vitepress/dist/`, and Pages/OIDC write permission confined to the deployment job. It does not run package examples on Linux or broaden package compatibility claims. Actual workflow behavior still requires observation after publication/merge.
 
-Pages settings: pending post-review inspection/configuration. Production run URL/SHA, public build marker, live browser checks and merged README documentation link: pending. No branch push or merge is performed by this increment's agent.
+Pages preparation completed after the integrated gate:
+
+- Repository identity: `Light2288/a11y-journey-evidence`, default branch `main`, matching origin; viewer permission `ADMIN`.
+- Initial `gh api repos/Light2288/a11y-journey-evidence/pages` returned HTTP 404, consistent with the expected absent site.
+- `gh api --method POST repos/Light2288/a11y-journey-evidence/pages -f build_type=workflow` exited 0.
+- Subsequent `gh api repos/Light2288/a11y-journey-evidence/pages` exited 0 and confirmed `build_type: workflow`, public site, HTTPS enforced and `html_url: https://light2288.github.io/a11y-journey-evidence/`. Its deployment status was null; this is configuration evidence, not successful deployment.
+- Ignored JSON records: `.artifacts/docs-verification/pages-create.json` and `pages-verified.json`.
+- The task-closing `npm test` rerun exited 0: 6 unit tests and `53 passed (24.0s)` browser checks. `git diff --check` exited 0 before this preparation commit.
+
+Production run URL/SHA, public build marker, live browser checks and merged README documentation link remain **pending**. The clean local branch is prepared for the user to push, open a PR and merge. No branch push or merge was performed by the agent.
 
 ## Assessment and boundaries
 

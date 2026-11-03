@@ -239,8 +239,8 @@ Each condition has a check in its owning task below.
 
 **Interfaces:** Produces the public site, verified deployment identity and locally committed delivery evidence.
 
-- [ ] After the integrated gate, recheck repository identity and Pages state. For the expected absent site, configure workflow-based Pages with `gh api --method POST repos/Light2288/a11y-journey-evidence/pages -f build_type=workflow`. Verify it through a subsequent GET. Reuse matching state; investigate unexpected conflicting configuration before changing it.
-- [ ] Record actual configuration results and commit the preparation outcome locally. Report the branch ready for the user to push, open a PR and merge. Leave live verification pending; do not push or merge.
+- [x] After the integrated gate, recheck repository identity and Pages state. For the expected absent site, configure workflow-based Pages with `gh api --method POST repos/Light2288/a11y-journey-evidence/pages -f build_type=workflow`. Verify it through a subsequent GET. Reuse matching state; investigate unexpected conflicting configuration before changing it.
+- [x] Record actual configuration results and commit the preparation outcome locally. Report the branch ready for the user to push, open a PR and merge. Leave live verification pending; do not push or merge.
 - [ ] After the user reports publication/merge, inspect the actual PR workflow and main deployment. Verify the PR had no deployment job execution, and that the successful production run used the intended merged main commit.
 - [ ] Verify Pages deployment status and compare the public `build-info.json` commit with that production run’s SHA. A successful run with stale served content does not pass.
 - [ ] Run the shared live smoke tests:
@@ -283,4 +283,4 @@ Each condition has a check in its owning task below.
 
 ## Execution notes — 2026-11-03
 
-Tasks 1–6 are locally complete and committed. All final local commands passed. The initial specification attempt stopped BLOCKED on missing PNG bytes in its review package; a corrected evidence package resolved that input deficiency. Sequential specification and quality reviews then passed with matching identities and one deferred Minor scheduling risk. Task 7 Pages preparation follows; deployment and live verification remain pending the user-controlled merge. See [delivery record](../../github-pages-results.md) for evidence and review identity. Preserve the execution ledger while rollout is pending; do not claim live delivery complete.
+Tasks 1–6 are locally complete and committed. All final local commands passed. The initial specification attempt stopped BLOCKED on missing PNG bytes in its review package; a corrected evidence package resolved that input deficiency. Sequential specification and quality reviews then passed with matching identities and one deferred Minor scheduling risk. Task 7 preparation confirmed the repository identity, created workflow-based Pages after the expected initial 404, and verified its public HTTPS configuration through GET. The branch is ready for user publication; deployment and live verification remain pending the user-controlled merge. See [delivery record](../../github-pages-results.md) for evidence and review identity. Preserve the execution ledger while rollout is pending; do not claim live delivery complete.
