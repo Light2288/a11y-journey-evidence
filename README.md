@@ -171,3 +171,7 @@ Production preview: `http://localhost:4173/a11y-journey-evidence/`. Browser chec
 `docs:check` runs verifier unit checks, a production build and Chromium site checks. `docs:verify-examples` installs the published package in a fresh temporary ESM project, typechecks it, and verifies all seven native outcomes, fixture composition and reporting. It preserves local evidence under `.artifacts/docs-examples/`. Documentation dependencies are development-only.
 
 The site retains VitePress's standard layout and local search. A small theme setup extension labels its search field and restores focus after dismissal; keep the browser regressions when upgrading VitePress.
+
+Documentation pull requests build and check the production site with read-only repository permission. After a user merges into `main`, the workflow uploads only `site/.vitepress/dist/` and deploys through the `github-pages` environment; deployment permission is confined to that main-only job. The repository's Pages source must be **GitHub Actions**. Inspect the `Documentation` run and public `build-info.json` to tie served content to its commit. These documentation checks do not establish package compatibility on the CI host.
+
+For live smoke verification after deployment, set `DOCS_BASE_URL` to the public site and `DOCS_EXPECTED_COMMIT` to the verified deployment SHA, then run `npm run docs:test -- --grep live`. This uses the public site instead of starting a preview server. Keep local `docs:check` for the full output/publication-boundary checks.

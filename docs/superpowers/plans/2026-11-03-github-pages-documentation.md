@@ -205,14 +205,14 @@ Each condition has a check in its owning task below.
 - Deployment environment: `github-pages`.
 - Production commit marker: Task 1’s `build-info.json`.
 
-- [ ] Configure `pull_request` and main-only `push` triggers scoped to site content, documentation examples/tests/scripts, root package/lockfile, README and this workflow. Do not introduce general package CI or `pull_request_target`.
-- [ ] Give build jobs only `contents: read`. Use pinned checkout/setup actions, `persist-credentials: false`, Node 24.21.0, npm 11.19.0 and `npm ci`.
-- [ ] Install Chromium for documentation-browser checks using `npx playwright install --with-deps chromium`; run `npm run docs:check`. Published-package example verification remains local, avoiding new package-host compatibility claims.
-- [ ] Upload a Pages artifact only on a push to main, after checks pass. Use the pinned upload action and the exact built-output directory.
-- [ ] Add a deployment job requiring successful build and a main push. Grant `pages: write` and `id-token: write` only there. Use pinned configure/deploy actions, `github-pages` and deployment concurrency without cancelling an in-progress deployment.
-- [ ] Inspect workflow event conditions, permissions and artifact paths as part of the required review. Document that actual PR/deployment behavior remains unobserved until the user publishes/merges.
-- [ ] Run `npm run docs:check` and `git diff --check`. Expected: exit 0 locally; no claim that GitHub Actions has run.
-- [ ] Commit workflow and maintenance instructions using explicit paths.
+- [x] Configure `pull_request` and main-only `push` triggers scoped to site content, documentation examples/tests/scripts, root package/lockfile, README and this workflow. Do not introduce general package CI or `pull_request_target`.
+- [x] Give build jobs only `contents: read`. Use pinned checkout/setup actions, `persist-credentials: false`, Node 24.21.0, npm 11.19.0 and `npm ci`.
+- [x] Install Chromium for documentation-browser checks using `npx playwright install --with-deps chromium`; run `npm run docs:check`. Published-package example verification remains local, avoiding new package-host compatibility claims.
+- [x] Upload a Pages artifact only on a push to main, after checks pass. Use the pinned upload action and the exact built-output directory.
+- [x] Add a deployment job requiring successful build and a main push. Grant `pages: write` and `id-token: write` only there. Use pinned configure/deploy actions, `github-pages` and deployment concurrency without cancelling an in-progress deployment.
+- [x] Inspect workflow event conditions, permissions and artifact paths as part of the required review. Document that actual PR/deployment behavior remains unobserved until the user publishes/merges.
+- [x] Run `npm run docs:check` and `git diff --check`. Expected: exit 0 locally; no claim that GitHub Actions has run.
+- [x] Commit workflow and maintenance instructions using explicit paths.
 
 ### Task 6: Complete local verification and the integrated review [size: M | risk: none | mechanical: false | clear_pattern: true | objectively_verifiable: true | concerns: none]
 
