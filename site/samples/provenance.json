@@ -1,0 +1,31 @@
+{
+  "packageVersion": "0.1.0",
+  "integrity": "sha512-83TBUtc4z6Htmjrl+kse6d2uRgVlI7GVOskUvsgYwoGJMAzZNCjkClVJhGcnmaifY7TRi1B1HavTsj+GHKnydg==",
+  "generatedAt": "2026-11-02T23:52:41.241Z",
+  "runtime": {
+    "node": "v24.21.0",
+    "playwright": "1.64.1",
+    "chromium": "156.0.8078.4",
+    "platform": "darwin",
+    "arch": "arm64"
+  },
+  "sourceTag": "v0.1.0",
+  "samples": [
+    {
+      "title": "dialog escaping-focus",
+      "actual": "failed",
+      "expected": "failed",
+      "phase": "fixture-teardown",
+      "screenshotSha256": "03e9aedf5238a246975d8092df1d80adcbb30eabb80e114a5ebaee1db54cb660",
+      "edits": "Diagnostics: ANSI, call log, source excerpt and machine-local stack paths omitted. Observation lines transcribed using the report notation; all observed records retained. Capture metadata excludes internal file paths. Screenshots and scoped ARIA text unmodified."
+    },
+    {
+      "title": "form missing-error-association",
+      "actual": "failed",
+      "expected": "failed",
+      "phase": "fixture-teardown",
+      "screenshotSha256": "0e958dc393254b93985a02dde0c1d9d9ff2a073bf20293f9990d6f97b586f111",
+      "edits": "Diagnostics: ANSI, call log, source excerpt and machine-local stack paths omitted. Observation lines transcribed using the report notation; all observed records retained. Capture metadata excludes internal file paths. Screenshots and scoped ARIA text unmodified."
+    }
+  ]
+}

@@ -5,5 +5,5 @@ test('packed file set contains runtime and declaration entrypoints without repos
   const pack=JSON.parse(execFileSync('npm',['pack','--dry-run','--json'],{encoding:'utf8'}))[0];
   const paths=pack.files.map((f:{path:string})=>f.path);
   for(const required of ['dist/index.js','dist/index.d.ts','dist/reporter.js','dist/reporter.d.ts','README.md','LICENSE'])assert.ok(paths.includes(required),required);
-  assert.equal(paths.some((path:string)=>path.startsWith('src/')||path.startsWith('tests/')||path.startsWith('examples/')),false);
+  assert.equal(paths.some((path:string)=>['src/','tests/','examples/','site/','scripts/','docs/','.github/','.artifacts/'].some(prefix=>path.startsWith(prefix))),false);
 });

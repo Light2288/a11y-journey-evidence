@@ -1,0 +1,11 @@
+actual: failed
+expected: failed
+phase: fixture-teardown
+observation complete within supported scope: true
+truncated: false
+screenshot: captured
+  start: 2026-11-02T23:52:39.058Z
+  finish: 2026-11-02T23:52:39.077Z
+ariaSnapshot: captured
+  start: 2026-11-02T23:52:39.077Z
+  finish: 2026-11-02T23:52:39.083Z

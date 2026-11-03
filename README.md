@@ -148,3 +148,30 @@ Support is limited to Chromium, one page/main document, ordinary light DOM, and 
 See [the form author comparison](https://github.com/Light2288/a11y-journey-evidence/blob/main/docs/batch-2-comparison.md), [Batch 2 verification and remaining release work](https://github.com/Light2288/a11y-journey-evidence/blob/main/docs/batch-2-results.md), and [the Batch 2 specification](https://github.com/Light2288/a11y-journey-evidence/blob/main/docs/superpowers/specs/2026-10-27-batch-2-form-package-comparison.md). [Batch 1's comparison](https://github.com/Light2288/a11y-journey-evidence/blob/main/docs/batch-1-comparison.md) and [results](https://github.com/Light2288/a11y-journey-evidence/blob/main/docs/batch-1-results.md) remain historical records. **External validation is pending.**
 
 The v0.1.0 scope includes both completed batches and the Space-key correction. The linked delivery records preserve their original findings and decisions; current release preparation and publication are tracked separately. These checks support the documented experimental scope and do not establish external usefulness, screen-reader behavior, or accessibility conformance. Further product work needs its own approved scope and artifacts.
+
+[Read the documentation](https://light2288.github.io/a11y-journey-evidence/) for published v0.1.0: onboarding, integration, recipes, inspected failure walkthroughs, API, comparison and limits.
+
+## Documentation development
+
+The English documentation uses VitePress. With Node 24.21.0 and npm 11.19.0:
+
+```sh
+npm ci
+npm run docs:dev
+npm run docs:build
+npm run docs:preview
+npm run docs:test
+npm run docs:test:unit
+npm run docs:check
+npm run docs:verify-examples
+```
+
+Production preview: `http://localhost:4173/a11y-journey-evidence/`. Browser checks target the built site; build before running them. Documentation build output stays outside the npm distribution.
+
+`docs:check` runs verifier unit checks, a production build and Chromium site checks. `docs:verify-examples` installs the published package in a fresh temporary ESM project, typechecks it, and verifies all seven native outcomes, fixture composition and reporting. It preserves local evidence under `.artifacts/docs-examples/`. Documentation dependencies are development-only.
+
+The site retains VitePress's standard layout and local search. A small theme setup extension labels its search field and restores focus after dismissal; keep the browser regressions when upgrading VitePress.
+
+Documentation pull requests build and check the production site with read-only repository permission. After a user merges into `main`, the workflow uploads only `site/.vitepress/dist/` and deploys through the `github-pages` environment; deployment permission is confined to that main-only job. The repository's Pages source must be **GitHub Actions**. Inspect the `Documentation` run and public `build-info.json` to tie served content to its commit. These documentation checks do not establish package compatibility on the CI host.
+
+For live smoke verification after deployment, set `DOCS_BASE_URL` to the public site and `DOCS_EXPECTED_COMMIT` to the verified deployment SHA, then run `npm run docs:test -- --grep live`. This uses the public site instead of starting a preview server. Keep local `docs:check` for the full output/publication-boundary checks.

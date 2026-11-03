@@ -1,0 +1,5 @@
+- dialog "Preferences":
+  - heading "Preferences" [level=1]
+  - paragraph: Synthetic settings; no personal data.
+  - button "Continue"
+  - button "Cancel"

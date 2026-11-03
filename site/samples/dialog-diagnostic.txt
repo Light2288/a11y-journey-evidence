@@ -1,0 +1,8 @@
+Error: Forward containment: focus returns to Continue
+
+expect(locator).toBeFocused() failed
+
+Locator:  getByRole('button', { name: 'Continue', exact: true })
+Expected: focused
+Received: inactive
+Timeout:  1000ms
