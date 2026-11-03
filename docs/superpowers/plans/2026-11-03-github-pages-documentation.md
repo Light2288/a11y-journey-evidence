@@ -222,9 +222,9 @@ Each condition has a check in its owning task below.
 
 **Interfaces:** The durable record separates verified local results, review results, Pages settings and pending/deployed outcomes.
 
-- [ ] Run final local verification: `npm test`, `npm run docs:verify-examples`, `npm run docs:check`, `npm pack --dry-run --json` and `git diff --check`. Record exact commands, exits, decisive outputs and actual tool/browser/host versions.
-- [ ] Inspect rendered desktop/mobile pages and the selected public evidence images. Check installation/source/release and historical-reference links against their actual destinations.
-- [ ] Record sample provenance, the current author-assessment status and external validation pending. Mark PR execution, deployment and live verification pending.
+- [x] Run final local verification: `npm test`, `npm run docs:verify-examples`, `npm run docs:check`, `npm pack --dry-run --json` and `git diff --check`. Record exact commands, exits, decisive outputs and actual tool/browser/host versions.
+- [x] Inspect rendered desktop/mobile pages and the selected public evidence images. Check installation/source/release and historical-reference links against their actual destinations.
+- [x] Record sample provenance, the current author-assessment status and external validation pending. Mark PR execution, deployment and live verification pending.
 - [ ] Commit intended implementation/documentation changes, then invoke `personal-workflows:code-review` once in integrated mode: specification review followed by quality review on the same review state.
 - [ ] Resolve findings through the prescribed loop, rerunning affected checks. Do not add another generic final review.
 - [ ] Record the gate outcome and local-ready state. The next task may configure Pages, but full completion remains dependent on the user-controlled merge.
