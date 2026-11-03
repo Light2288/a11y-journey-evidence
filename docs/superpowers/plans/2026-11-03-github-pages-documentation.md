@@ -180,14 +180,14 @@ Each condition has a check in its owning task below.
 - Shared browser smoke tests carry `live` in their titles so they can later run against `DOCS_BASE_URL`.
 - Check desktop at 1280×900 and mobile at 375×812.
 
-- [ ] Add failing behavioral tests for keyboard skip/navigation access, search opening/input/result selection/Escape dismissal and mobile-menu operation. Check focus after dismissal and usable focus progression after navigation.
-- [ ] Add built-site checks that enumerate generated pages and validate same-site links, fragments, screenshots and referenced assets. Resolve all links against the production base; direct navigation/reload must succeed.
-- [ ] Check reading pages at both widths. Require no unintended document-level horizontal overflow; code blocks may scroll within their own containers. Require evidence images to load with useful text alternatives.
-- [ ] Extend the existing pack-boundary test to reject site, documentation tooling, workflow and generated evidence files in the npm archive.
-- [ ] Run `npm run docs:check` and `npm run test:unit`. Expected: any newly exposed usability, route or packaging problem fails its corresponding check.
-- [ ] Resolve findings within the standard theme and approved content design. Finish the README documentation link and contributor commands. Keep external resource links versioned where appropriate.
-- [ ] Run both commands again. Expected: exit 0, with browser interactions and distribution boundaries verified.
-- [ ] Commit the checks and refinements using explicit paths.
+- [x] Add failing behavioral tests for keyboard skip/navigation access, search opening/input/result selection/Escape dismissal and mobile-menu operation. Check focus after dismissal and usable focus progression after navigation.
+- [x] Add built-site checks that enumerate generated pages and validate same-site links, fragments, screenshots and referenced assets. Resolve all links against the production base; direct navigation/reload must succeed.
+- [x] Check reading pages at both widths. Require no unintended document-level horizontal overflow; code blocks may scroll within their own containers. Require evidence images to load with useful text alternatives.
+- [x] Extend the existing pack-boundary test to reject site, documentation tooling, workflow and generated evidence files in the npm archive.
+- [x] Run `npm run docs:check` and `npm run test:unit`. Expected: any newly exposed usability, route or packaging problem fails its corresponding check.
+- [x] Resolve findings within the standard theme and approved content design. Finish the README documentation link and contributor commands. Keep external resource links versioned where appropriate.
+- [x] Run both commands again. Expected: exit 0, with browser interactions and distribution boundaries verified.
+- [x] Commit the checks and refinements using explicit paths.
 
 ### Task 5: Prepare isolated PR checks and Pages deployment [size: M | risk: security | mechanical: false | clear_pattern: true | objectively_verifiable: true | concerns: security]
 

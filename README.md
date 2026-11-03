@@ -149,6 +149,8 @@ See [the form author comparison](https://github.com/Light2288/a11y-journey-evide
 
 The v0.1.0 scope includes both completed batches and the Space-key correction. The linked delivery records preserve their original findings and decisions; current release preparation and publication are tracked separately. These checks support the documented experimental scope and do not establish external usefulness, screen-reader behavior, or accessibility conformance. Further product work needs its own approved scope and artifacts.
 
+[Read the documentation](https://light2288.github.io/a11y-journey-evidence/) for published v0.1.0: onboarding, integration, recipes, inspected failure walkthroughs, API, comparison and limits.
+
 ## Documentation development
 
 The English documentation uses VitePress. With Node 24.21.0 and npm 11.19.0:
@@ -159,6 +161,13 @@ npm run docs:dev
 npm run docs:build
 npm run docs:preview
 npm run docs:test
+npm run docs:test:unit
+npm run docs:check
+npm run docs:verify-examples
 ```
 
 Production preview: `http://localhost:4173/a11y-journey-evidence/`. Browser checks target the built site; build before running them. Documentation build output stays outside the npm distribution.
+
+`docs:check` runs verifier unit checks, a production build and Chromium site checks. `docs:verify-examples` installs the published package in a fresh temporary ESM project, typechecks it, and verifies all seven native outcomes, fixture composition and reporting. It preserves local evidence under `.artifacts/docs-examples/`. Documentation dependencies are development-only.
+
+The site retains VitePress's standard layout and local search. A small theme setup extension labels its search field and restores focus after dismissal; keep the browser regressions when upgrading VitePress.
