@@ -6,7 +6,9 @@ Scope: the approved [specification](superpowers/specs/2026-11-03-github-pages-do
 
 ## Delivery state
 
-Local implementation and verification passed, and the integrated sequential specification/quality review passed with one deferred Minor finding. Pages is configured for GitHub Actions, and the branch is ready for the user-controlled push, PR and merge. PR checks, production deployment and live verification are **pending the user-controlled push and merge**. No public-site completion is claimed.
+**Live delivery verified on 2026-11-03.** PR #6 merged, its documentation build passed without deployment, and the main build/deployment succeeded. The public build marker matches merge commit `30fed24a0b2d7a05f8ca92726a947b5697a11555`. All nine live smoke checks pass after correcting a browser-test hydration race. The integrated review remains passed with one deferred Minor scheduling finding.
+
+The verification record and test-only correction are committed locally on `docs/github-pages-verification`, based on the aligned merged main. Integration of this follow-up branch remains user-controlled; it changes no site content or package runtime.
 
 The English VitePress site covers onboarding, native fixture composition, dialog/form recipes, evidence interpretation, API, stock comparison, limits and troubleshooting. It builds only `site/`, with the production base `/a11y-journey-evidence/` and `.html` routes. Target URL: <https://light2288.github.io/a11y-journey-evidence/>.
 
@@ -58,9 +60,9 @@ Reviewed commit: `4a71a592ab54ae43d71d0c5701c007912eef7410`. Gate ID: `pages-0bb
 
 **Deferred Minor:** deployment-only concurrency allows overlapping main builds to finish out of order and potentially deploy an older artifact last. No rollback was observed. A later workflow change can serialize build through deployment using a ref-specific workflow concurrency group. The current rollout must still compare the publicly served SHA with the intended deployment commit; this finding is not a live-completion claim.
 
-The review set aside future Pages/CI/public outcomes, broader unchanged package compatibility, successful npm website access (HTTP 403), and the coordinator's final outcome recording. Future outcomes remain explicitly pending; existing host limits and the website limitation remain disclosed; this update records the actual gate result.
+The review set aside future Pages/CI/public outcomes, broader unchanged package compatibility, successful npm website access (HTTP 403), and the coordinator's final outcome recording. Those outcomes were pending at review time; the observed rollout is recorded below. Existing host limits and the npm website limitation remain disclosed.
 
-The workflow uses read-only PR builds, pinned action commits, main-only upload of `site/.vitepress/dist/`, and Pages/OIDC write permission confined to the deployment job. It does not run package examples on Linux or broaden package compatibility claims. Actual workflow behavior still requires observation after publication/merge.
+The workflow uses read-only PR builds, pinned action commits, main-only upload of `site/.vitepress/dist/`, and Pages/OIDC write permission confined to the deployment job. It does not run package examples on Linux or broaden package compatibility claims. The observed PR and main runs below confirm the expected job separation. This observation does not simulate every possible workflow scheduling interleaving.
 
 Pages preparation completed after the integrated gate:
 
@@ -71,10 +73,48 @@ Pages preparation completed after the integrated gate:
 - Ignored JSON records: `.artifacts/docs-verification/pages-create.json` and `pages-verified.json`.
 - The task-closing `npm test` rerun exited 0: 6 unit tests and `53 passed (24.0s)` browser checks. `git diff --check` exited 0 before this preparation commit.
 
-Production run URL/SHA, public build marker, live browser checks and merged README documentation link remain **pending**. The clean local branch is prepared for the user to push, open a PR and merge. No branch push or merge was performed by the agent.
+## Published rollout verification — 2026-11-03
+
+Initial repository check after `git fetch origin`: clean local `main`, `HEAD` and `origin/main` all matched `30fed24a0b2d7a05f8ca92726a947b5697a11555`. The approved verification branch `docs/github-pages-verification` was then created from that commit; main was not edited.
+
+| Evidence | Actual outcome |
+| --- | --- |
+| [PR #6](https://github.com/Light2288/a11y-journey-evidence/pull/6) | Merged 2026-11-03T12:05:54Z; merge SHA `30fed24a0b2d7a05f8ca92726a947b5697a11555` |
+| [PR workflow run](https://github.com/Light2288/a11y-journey-evidence/actions/runs/41632840930) | `pull_request`; build success; deployment **skipped** |
+| [Production workflow run](https://github.com/Light2288/a11y-journey-evidence/actions/runs/41632857449) | `push` to main; build and deployment success at the merge SHA |
+| [Pages deployment job](https://github.com/Light2288/a11y-journey-evidence/actions/runs/41632857449/job/125907055373) | Deployment `7518244865`, environment `github-pages`, status **success** at 2026-11-03T12:07:16Z |
+| [Public build marker](https://light2288.github.io/a11y-journey-evidence/build-info.json) | HTTP 200; `sourceCommit` exactly matches production run and merge; `packageVersion: 0.1.0` |
+| [Public documentation](https://light2288.github.io/a11y-journey-evidence/) | Homepage/direct routes/assets, keyboard navigation/search, mobile navigation and 404 recovery passed live browser checks |
+| Merged remote README | Its `Read the documentation` link points to the public site; verified through GitHub Contents API at the exact merged SHA |
+
+GitHub CLI inspection used `gh run view 41632840930 --repo Light2288/a11y-journey-evidence --json databaseId,event,headSha,conclusion,jobs,url`, the equivalent command for run `41632857449`, and the deployments/status APIs. Every final inspection command exited 0. Pages' general API still reports `status: null` for workflow builds; successful deployment status and the actual served build marker establish publication.
+
+### Live command and initial timing failure
+
+With the pinned Node PATH and color settings above:
+
+```sh
+DOCS_BASE_URL=https://light2288.github.io/a11y-journey-evidence/ DOCS_EXPECTED_COMMIT=30fed24a0b2d7a05f8ca92726a947b5697a11555 npm run docs:test -- --grep live
+```
+
+First run: exit **1**, seven passed and two failed. The failed checks were keyboard skip focus and search activation. Diagnosis observed `document.readyState: complete` while the Vue app was not mounted. VitePress asynchronously imports the initial page module before attaching event handlers. A skip activation before mount left focus on the link; activation after actual mount focused `#VPContent`. This explains why fast local/CI checks passed but immediate public-host actions could race hydration.
+
+A deterministic delayed-page-module browser regression reproduced the skip-focus failure: `npm run docs:test -- --grep "delayed initial page module"` exited **1** before the readiness fix and **0** afterward (`1 passed (2.1s)`). Interactive smoke checks now wait for Vue's actual mount marker before issuing keyboard actions; they do not retry the failed interaction or weaken focus/assertion requirements. The marker is private to the pinned Vue/VitePress runtime and must be reassessed on upgrades. This test-only correction and regression extend the originally outcome-only follow-up branch to make the approved live verification reliable. No product or site source was changed.
+
+The corrected live command exited **0**, `9 passed (4.9s)`. It verified both synthetic walkthroughs, desktop/mobile reading, keyboard skip/navigation, search result selection and Escape focus return, mobile menu, direct routes/assets, 404 recovery and the exact deployed commit. Both live walkthroughs were additionally visually inspected in Chromium, including screenshots and scoped ARIA text. Checks assess the hydrated website; controls that depend on JavaScript require client initialization.
+
+After the test correction:
+
+| Command | Exit | Result |
+| --- | --- | --- |
+| `npm test` | 0 | 6 unit and `53 passed (24.9s)` browser checks |
+| `npm run docs:check` | 0 | 5 verifier unit checks, production build and `13 passed (10.6s)` documentation browser checks, including delayed hydration |
+| `git diff --check` | 0 | No whitespace diagnostics |
+
+Ignored records: `.artifacts/docs-verification/live-{pr-run,main-run,deployments,deployment-statuses,build-info,main-readme}.json`; `live-smoke.log`, `live-hydration-diagnosis.log`, `hydration-{red,green}.log`, `live-smoke-green.log`, `postmerge-{npm-test,docs-check}.log`, and `live-{dialog,form}-walkthrough.png`. The original failed run remains retained alongside the green run. Actual browser/host: Chromium 156.0.8078.4, Node 24.21.0, macOS arm64. CI documentation checks observed on the configured Ubuntu runner do not extend package-host compatibility.
 
 ## Assessment and boundaries
 
 This remains an **author assessment; external validation pending**. Synthetic reproducibility does not prove independent usefulness, accessibility conformance, screen-reader announcements, general sanitization or measured productivity. Artifacts may retain application data; readers must inspect complete bundles before sharing. Package runtime, exports, peer, version, npm publication, GitHub tag/release and historical records are preserved.
 
-After the user-controlled merge, resume this same increment: inspect PR/main runs, compare the public build SHA, run the shared live smoke checks and commit the outcome on a documentation branch. Personal-site work, live demos, product changes and broader improvements remain deferred.
+The documentation increment has reached its verified public endpoint. The local verification/test correction branch still needs user-controlled push/PR/merge if the record is to be retained on main. No push or merge was performed by the agent. Personal-site work, live demos, product changes and broader improvements remain deferred.

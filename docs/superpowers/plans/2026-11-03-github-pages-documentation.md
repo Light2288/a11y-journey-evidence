@@ -13,7 +13,7 @@
 **Slug:** `github-pages-documentation`
 **Created:** 2026-11-03
 **Updated:** 2026-11-03
-**Status:** APPROVED — implementation authorized; live verification pending user-controlled merge
+**Status:** COMPLETE — live delivery verified; local verification record/test correction awaits user-controlled integration
 **Execution tier:** full
 **Implementation model role:** full
 **Execution method:** Native
@@ -241,19 +241,19 @@ Each condition has a check in its owning task below.
 
 - [x] After the integrated gate, recheck repository identity and Pages state. For the expected absent site, configure workflow-based Pages with `gh api --method POST repos/Light2288/a11y-journey-evidence/pages -f build_type=workflow`. Verify it through a subsequent GET. Reuse matching state; investigate unexpected conflicting configuration before changing it.
 - [x] Record actual configuration results and commit the preparation outcome locally. Report the branch ready for the user to push, open a PR and merge. Leave live verification pending; do not push or merge.
-- [ ] After the user reports publication/merge, inspect the actual PR workflow and main deployment. Verify the PR had no deployment job execution, and that the successful production run used the intended merged main commit.
-- [ ] Verify Pages deployment status and compare the public `build-info.json` commit with that production run’s SHA. A successful run with stale served content does not pass.
-- [ ] Run the shared live smoke tests:
+- [x] After the user reports publication/merge, inspect the actual PR workflow and main deployment. Verify the PR had no deployment job execution, and that the successful production run used the intended merged main commit.
+- [x] Verify Pages deployment status and compare the public `build-info.json` commit with that production run’s SHA. A successful run with stale served content does not pass.
+- [x] Run the shared live smoke tests:
 
   ```sh
   DOCS_BASE_URL=https://light2288.github.io/a11y-journey-evidence/ DOCS_EXPECTED_COMMIT=<verified-deployment-sha> npm run docs:test -- --grep live
   ```
 
   Substitute the observed deployment SHA. Expected: exit 0; public direct routes, assets, keyboard navigation/search, mobile navigation and 404 recovery work.
-- [ ] Verify the README documentation link on merged main and inspect the live walkthroughs. Record workflow/run URL, deployment commit, public URL, checks and actual outcomes. Retain any failure as pending and repair it within this same increment.
-- [ ] Save the outcome on a documentation branch, never directly on main. If the user has returned to main after merging, create `docs/github-pages-verification` from safely updated main for the outcome-only commit. Preserve any existing branch/local work.
-- [ ] Run `git diff --check`, commit explicit outcome paths and report the site, evidence, limitations and remaining integration status. Do not automatically push this final record.
-- [ ] Stop before personal-site work, live demos, package changes or further improvements.
+- [x] Verify the README documentation link on merged main and inspect the live walkthroughs. Record workflow/run URL, deployment commit, public URL, checks and actual outcomes. Retain any failure as pending and repair it within this same increment.
+- [x] Save the outcome on a documentation branch, never directly on main. If the user has returned to main after merging, create `docs/github-pages-verification` from safely updated main for the outcome-only commit. Preserve any existing branch/local work.
+- [x] Run `git diff --check`, commit explicit outcome paths and report the site, evidence, limitations and remaining integration status. Do not automatically push this final record.
+- [x] Stop before personal-site work, live demos, package changes or further improvements.
 
 ## Acceptance and Verification Traceability
 
@@ -273,7 +273,7 @@ Each condition has a check in its owning task below.
 
 ## Approval Handoff
 
-**Current stage:** Stage 4 — implementation authorized by separate specification approval and the user's `PLEASE IMPLEMENT THIS PLAN` message.
+**Current stage:** Stage 4 complete — authorized implementation, review and live rollout verified; follow-up verification commit remains local.
 
 **Artifact:** `docs/superpowers/plans/2026-11-03-github-pages-documentation.md`, saved from the presented and approved plan after leaving Plan mode. Only lifecycle/path wording changed on materialization.
 
@@ -283,4 +283,4 @@ Each condition has a check in its owning task below.
 
 ## Execution notes — 2026-11-03
 
-Tasks 1–6 are locally complete and committed. All final local commands passed. The initial specification attempt stopped BLOCKED on missing PNG bytes in its review package; a corrected evidence package resolved that input deficiency. Sequential specification and quality reviews then passed with matching identities and one deferred Minor scheduling risk. Task 7 preparation confirmed the repository identity, created workflow-based Pages after the expected initial 404, and verified its public HTTPS configuration through GET. The branch is ready for user publication; deployment and live verification remain pending the user-controlled merge. See [delivery record](../../github-pages-results.md) for evidence and review identity. Preserve the execution ledger while rollout is pending; do not claim live delivery complete.
+Tasks 1–6 are locally complete and committed. All final local commands passed. The initial specification attempt stopped BLOCKED on missing PNG bytes in its review package; a corrected evidence package resolved that input deficiency. Sequential specification and quality reviews then passed with matching identities and one deferred Minor scheduling risk. Task 7 preparation confirmed the repository identity, created workflow-based Pages after the expected initial 404, and verified its public HTTPS configuration through GET. The branch is ready for user publication; deployment and live verification remain pending the user-controlled merge. See [delivery record](../../github-pages-results.md) for evidence and review identity. The documentation increment stops here; broader work stays deferred. The original approvals and review identities remain preserved.
