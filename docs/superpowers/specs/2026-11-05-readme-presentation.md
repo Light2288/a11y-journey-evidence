@@ -82,7 +82,7 @@ Artifact resolution found no specification or plan for slug `readme-presentation
 
 **Plan approval:** The user's later `approved` message following presentation of the separate implementation plan.
 
-**Current stage:** Stage 4 — implementation.
+**Current stage:** Stage 4 — local implementation complete; user integration pending.
 
 **Artifact:** `docs/superpowers/specs/2026-11-05-readme-presentation.md`.
 

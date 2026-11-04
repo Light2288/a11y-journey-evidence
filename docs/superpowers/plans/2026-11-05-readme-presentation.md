@@ -12,7 +12,7 @@
 **Slug:** `readme-presentation`
 **Created:** 2026-11-05
 **Updated:** 2026-11-05
-**Status:** APPROVED — implementation in progress
+**Status:** APPROVED — local implementation complete; integration pending
 **Execution tier:** full
 **Implementation model role:** full
 **Execution method:** Native
@@ -109,9 +109,9 @@ No other tracked files are planned. The implementation may refine README wording
 - [x] Run `npm run docs:verify-examples`. Expected: exit 0 for the fresh npm 0.1.0 consumer, fixture composition, native/evidence reporters, two correct journeys, four intended actual failures, and the unselected control. If the README adds a standalone executable snippet beyond those examples, execute that snippet in the same fresh-consumer context with the normal installed Playwright command and record its result.
 - [x] Check the rendered README's local links/fragments against the checkout and external documentation/repository/release links against actual destinations. Verify versioned example links where appropriate. Treat the new production image URL as pending deployment; verify it through the local route above. If npm's website blocks automation, record that limitation and use the official registry metadata/consumer install to verify package identity rather than claiming a broken link or a successful webpage check.
 - [x] Record local checks, PNG provenance, screenshots, pending public URL/GitHub rendering, unchanged npm/release state, and current author-assessment/external-validation status in this plan's execution notes. Commit intended implementation/outcome changes with explicit paths before review.
-- [ ] Invoke `personal-workflows:code-review` once in integrated mode for the whole branch. Build its required scratch review package with this approved spec/plan, complete diff/file list, image checksum and visual context, and observed verification. Run the prescribed specification reviewer before the quality reviewer on the same package identity; use its enclosing remediation loop without an additional generic final review.
-- [ ] Resolve actionable findings within scope and rerun affected checks. Record gate outcomes and any residual limitations, then run `git diff --check` and inspect final status. Commit explicit final outcome/fix paths; do not include scratch files or unrelated work.
-- [ ] Report the resulting branch/commits, image location, README improvements, checks actually passed, limitations, and next integration action. Explain that the user must push/open/merge a PR and allow the existing Pages deployment before the new public image URL works. No push, merge, publication, or further site work occurs here.
+- [x] Invoke `personal-workflows:code-review` once in integrated mode for the whole branch. Build its required scratch review package with this approved spec/plan, complete diff/file list, image checksum and visual context, and observed verification. Run the prescribed specification reviewer before the quality reviewer on the same package identity; use its enclosing remediation loop without an additional generic final review.
+- [x] Resolve actionable findings within scope and rerun affected checks. Record gate outcomes and any residual limitations, then run `git diff --check` and inspect final status. Commit explicit final outcome/fix paths; do not include scratch files or unrelated work.
+- [x] Report the resulting branch/commits, image location, README improvements, checks actually passed, limitations, and next integration action. Explain that the user must push/open/merge a PR and allow the existing Pages deployment before the new public image URL works. No push, merge, publication, or further site work occurs here.
 
 ## Acceptance and Verification Traceability
 
@@ -132,7 +132,7 @@ The plan covers every criterion, retains the selected delivery boundary, and lea
 
 **Plan approval:** The user's `approved` message immediately following this plan's presentation, separately from the earlier specification approval.
 
-**Current stage:** Stage 4 — implementation.
+**Current stage:** Stage 4 — local implementation complete; user integration pending.
 
 **Artifact:** `docs/superpowers/plans/2026-11-05-readme-presentation.md`.
 
@@ -172,4 +172,22 @@ Verified host/toolchain: macOS 27.0.1 (26A434), arm64; Node 24.21.0, npm 11.19.0
 
 The image is an illustrative diagram, not a run screenshot. Current comparisons remain author assessments and external validation remains pending. Product runtime, exports, manifest/lockfile, package version, workflow, historical records, npm publication, and GitHub release/tag were not changed. The new public image URL will work only after the user pushes/merges and Pages deploys; no push, merge, publication, or Pages setting change has occurred.
 
-Integrated specification/quality review and final handoff are pending at this record's preparation commit.
+### Integrated review and local completion
+
+The sole integrated gate reviewed branch state `821b1bbccaad407928aa48bc2e909311ad79d119` against base `48883031e85f8eb68a795ad9cd9aea9b0a227d62`. Specification review passed, then quality review passed on the identical immutable package; there were no findings, no deferred minors, and no remediation pass.
+
+- `GATE_RUN_ID`: `529654fc-0f63-4ead-87dd-964f56039bf5`.
+- `REVIEWED_STATE_ID`: `821b1bbccaad407928aa48bc2e909311ad79d119:7de168d2-81ad-4038-9e8b-168ccbcfa33b`.
+- `PACKAGE_SHA256`: `134548d195c58c5bd10da592e7c0b024e8c31a841d2f04f663ecba5759167f70`.
+
+Quality independently checked the clean reviewed state, image hashes/dimensions, and desktop/mobile screenshots; it assessed existing recorded suite evidence without rerunning the suites. The reviewer reports, immutable package, and execution ledger are retained in ignored `.artifacts/readme-presentation/`. No additional final reviewer was dispatched.
+
+The author then ran the required branch-finishing `npm test` again on the unchanged implementation: exit 0, **6 unit + 53 browser tests passed** (Chromium run 24.6s). The completion commit updates only lifecycle/checklist/outcome metadata on this approved pair. Final whitespace checks passed.
+
+The review's three declined-to-judge areas were resolved as explicit limitations:
+
+1. **Ruling:** Live GitHub rendering and public image delivery remain deferred to user integration, as approved. Local rendering and the production-base asset response are verified. Cost if wrong: a live layout or URL issue could require follow-up after deployment.
+2. **Ruling:** npm webpage rendering remains unverified after HTTP 403. Official-registry integration passed, and the published npm README stays unchanged. Cost if wrong: npm-specific presentation could differ during a future publication.
+3. **Ruling:** Broader compatibility remains unverified; retain the documented tested environment. Cost if wrong: unsupported environments may encounter issues.
+
+**Endpoint reached:** Keep `docs/readme-presentation` in the existing checkout with local implementation, verification, and outcome commits. No branch push, PR creation, merge, npm publication, release edit, or Pages-setting change occurred. The next user-controlled action is to publish the branch and merge its PR, then let the existing Pages workflow deploy the image. The homepage layout is unchanged; this increment supplies a reusable public image asset and its README presentation. Stop before personal-site or further product/site work.
