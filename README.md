@@ -1,68 +1,106 @@
-# A11y Journey Evidence
+<p align="center">
+  <img src="https://light2288.github.io/a11y-journey-evidence/images/a11y-journey-evidence.png" alt="Illustration of keyboard interactions with a dialog leading to a report with focus observations and a captured screenshot" width="640">
+</p>
 
-Experimental keyboard and focus evidence for native Playwright Test journeys. The package provides dialog and form examples, two isolated regressions per pattern, an opt-in fixture/reporter, and equivalent stock Playwright comparisons.
+<h1 align="center">A11y Journey Evidence</h1>
 
-The package observes and presents explicit tests. It does not decide correct focus policies, run screen readers, or establish accessibility conformance.
+<p align="center">
+  <strong>Reviewable keyboard and focus evidence for native Playwright Test journeys</strong>
+</p>
 
-## Run the repository
+<p align="center">
+  <a href="https://www.npmjs.com/package/a11y-journey-evidence/v/0.1.0"><img src="https://img.shields.io/badge/npm-0.1.0-cb3837" alt="npm version 0.1.0"></a>
+  <a href="https://playwright.dev/docs/intro"><img src="https://img.shields.io/badge/Playwright-1.64.1-2ead33" alt="Tested Playwright version 1.64.1"></a>
+  <a href="https://github.com/Light2288/a11y-journey-evidence/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT license"></a>
+</p>
 
-Verified locally with Node **24.21.0**, npm **11.19.0**, TypeScript **7.0.2**, Playwright **1.64.1**, Chromium **156.0.8078.4**, and macOS **27.0.1 arm64**. Other hosts and CI are untested. Playwright and Node compatibility declarations intentionally match this narrow evidence.
+<p align="center">
+  <a href="https://light2288.github.io/a11y-journey-evidence/">Documentation</a> ·
+  <a href="https://www.npmjs.com/package/a11y-journey-evidence">npm</a> ·
+  <a href="https://github.com/Light2288/a11y-journey-evidence/releases/tag/v0.1.0">v0.1.0 release</a>
+</p>
 
-```sh
-npm install
-npx playwright install chromium
-npm test
-npm run demo:package
-npm run demo:stock
-npm run verify:consumer
-```
+## About
 
-Each demo has six cases: a correct dialog, a correct form, and four deliberately broken variants. Commands succeed when both correct cases pass and all broken cases fail their intended assertions. The evidence records the broken cases as **actual failed assertions**, including when Playwright expects failure. Playwright's summary may label all six expected cases passed; this is not six verified journeys. Regression tests reject earlier unrelated failures and unexpected passes.
+**A11y Journey Evidence** adds an opt-in fixture and reporter to Playwright Test. It collects bounded keyboard/focus observations, native assertion outcomes, and available failure artifacts into a portable Markdown bundle. You keep native `page.keyboard`, locators, `test.step`, `expect`, and fixture composition.
 
-Use native filters to reproduce a form failure:
+**Experimental v0.1.0. External validation pending.** You choose the assertions and expected focus policies. The package does not run screen readers or establish accessibility conformance.
 
-```sh
-npm run demo:package -- --grep "form missing-error-association"
-npm run demo:stock -- --grep "form missing-error-association"
-npm run demo:package -- --grep "form failed-error-focus"
-npm run demo:stock -- --grep "form failed-error-focus"
-```
+## Features
 
-- Package Markdown: the command prints `a11y-evidence/<run-id>/report.md`.
-- Native package report: `.artifacts/package-html/index.html`.
-- Stock report: `.artifacts/stock-html/index.html`; native JSON: `.artifacts/stock-native.json`.
-- Packed consumer: `.artifacts/consumer/`; verification details: `.artifacts/consumer-verification.json`.
+- **Opt-in recording:** Start once after page setup; unselected tests produce no journey evidence.
+- **Native outcomes:** Keep actual/expected status, executed assertions, retries, and repeats visible without replacing Playwright's reporters.
+- **Failure captures:** Independently control page screenshots and declared-root ARIA snapshots; unavailable captures and incomplete evidence remain explicit.
+- **Portable reports:** Share the whole run directory with relative artifact links and available native traces.
+- **Runnable comparisons:** Explore correct dialog/form journeys and isolated regressions through equivalent package and stock Playwright examples.
 
-Use `npx playwright show-report .artifacts/stock-html` or the corresponding package folder for native report review. Native traces are enabled in both demos. Stock attaches observed focus, screenshot, scoped ARIA snapshot, and capture timing to actual failures.
+## Install and get started
 
-`npm run build` compiles ESM JavaScript and declarations. `npm run typecheck`, `npm run test:unit`, and `npm run test:browser` check types, Node unit tests, and Chromium integration tests respectively. Generated outputs are ignored by Git.
-
-## Install from npm
-
-In an existing ESM Playwright project using Node **24.21.0**, install the package and its tested Playwright Test peer:
+In an existing **ESM Playwright project**, install the published package and its tested peer:
 
 ```sh
 npm install --save-dev a11y-journey-evidence@0.1.0 @playwright/test@1.64.1
 npx playwright install chromium
 ```
 
-Version **0.1.0** includes the dialog and form journeys and remains experimental. Compatibility is verified only on the toolchain and host listed above. There is no additional runtime framework, CLI, or scanner dependency.
+The package baseline was verified with Node **24.21.0**, npm **11.19.0**, TypeScript **7.0.2**, Playwright **1.64.1**, Chromium **156.0.8078.4**, and macOS **27.0.1 arm64**. Other package hosts, browsers, and package CI compatibility remain unverified. Documentation CI has separate verification coverage.
 
-### Optional local tarball
+Starting from an empty directory? Follow the [complete file-by-file setup](https://light2288.github.io/a11y-journey-evidence/getting-started.html), including its ESM manifest and TypeScript configuration. npm supplies the compiled distribution; GitHub release source archives are repository snapshots.
 
-From a repository checkout:
+### Configure reporters
 
-```sh
-npm run build
-mkdir -p .artifacts/package
-npm pack --pack-destination .artifacts/package
+Add the evidence reporter alongside native reporters in `playwright.config.ts`. For a new configuration:
+
+```ts
+import { defineConfig } from '@playwright/test';
+
+export default defineConfig({
+  testDir: './tests',
+  reporter: [
+    ['list'],
+    ['html', { open: 'never' }],
+    ['a11y-journey-evidence/reporter', {
+      outputDir: 'a11y-evidence',
+      reproductionCommand: 'npx playwright test',
+    }],
+  ],
+  use: { browserName: 'chromium', trace: 'on' },
+});
 ```
 
-Install the generated tarball in another ESM project with `npm install --save-dev /absolute/path/to/a11y-journey-evidence-0.1.0.tgz @playwright/test@1.64.1`. The same tested-toolchain and capture limitations apply.
+### Record a native journey
 
-`npm run verify:consumer` packs the actual artifact and installs it into a fresh external copy of [the minimal consumer](https://github.com/Light2288/a11y-journey-evidence/tree/main/examples/consumer), then type-checks, runs Playwright, verifies existing-fixture composition and reporter coexistence, and moves a bundle to check its links. Its correct dialog and form produce two selected attempts; a third unselected control produces no evidence. Integration uses installed files without repository-source imports.
+Save the [complete released synthetic dialog fixture](https://github.com/Light2288/a11y-journey-evidence/blob/v0.1.0/examples/shared/dialog.ts) as `tests/dialog.ts`, then save this as `tests/dialog.spec.ts`:
 
-## Compose existing fixtures
+```ts
+import { expect } from '@playwright/test';
+import { test } from 'a11y-journey-evidence';
+import { loadDialog } from './dialog.js';
+
+test('keyboard opens preferences', async ({ page, journey }) => {
+  await loadDialog(page, 'correct');
+  await journey.start({ root: page.locator('#dialog') });
+
+  await test.step('Keyboard activation and initial focus', async () => {
+    await page.keyboard.press('Tab');
+    await expect(page.getByRole('button', { name: 'Open preferences' })).toBeFocused();
+    await page.keyboard.press('Enter');
+    await expect(page.getByRole('dialog', { name: 'Preferences' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Continue', exact: true })).toBeFocused();
+  });
+});
+```
+
+```sh
+npx playwright test
+npx playwright show-report
+```
+
+The reporter prints `a11y-evidence/<run-id>/report.md`; the default native HTML report is `playwright-report/index.html`. This passing example verifies activation and initial focus. The [complete dialog recipe](https://light2288.github.io/a11y-journey-evidence/recipes/dialog.html) adds both containment boundaries, Escape dismissal, and focus restoration.
+
+## Integrate with existing fixtures
+
+Compose the package fixture with your own using native `mergeTests`. In your shared fixture file, where `existing-fixtures.ts` already exports your existing `test`:
 
 ```ts
 import { mergeTests } from '@playwright/test';
@@ -73,90 +111,95 @@ export const test = mergeTests(existingTest, evidenceTest);
 export { expect } from '@playwright/test';
 ```
 
-Add the reporter alongside your native reporters:
+Import that composed `test` in your tests. Request `journey`, finish navigation/content setup, then call `start` once before the behavior being observed. For groups, use ordinary `beforeEach` setup and start once per test after page setup. No per-action recording calls are needed.
 
-```ts
-import { defineConfig } from '@playwright/test';
-
-export default defineConfig({
-  reporter: [
-    ['list'],
-    ['html', { open: 'never' }],
-    ['a11y-journey-evidence/reporter', {
-      outputDir: 'a11y-evidence',
-      reproductionCommand: 'npx playwright test',
-    }],
-  ],
-});
-```
-
-The reporter subpath resolves to ESM JavaScript. The repository's own package example uses `import.meta.resolve` because the root package is not installed in its own `node_modules`; the packed consumer verifies the ordinary package-name entry shown above.
-
-## Opt a test into evidence
-
-Request `journey`, complete your normal page/content setup, and call `journey.start({ root })` once before the keyboard behavior under test. Continue using native actions, locators, named steps, and assertions. [The complete dialog recipe](https://github.com/Light2288/a11y-journey-evidence/blob/main/examples/shared/dialog-journey.ts) declares initial focus, both containment boundaries, dismissal, and restoration explicitly.
-
-```ts
-// After navigation/setup, before the actions being tested:
-await journey.start({ root: page.locator('#dialog') });
-await test.step('Keyboard opens preferences', async () => {
-  await page.keyboard.press('Tab');
-  await page.keyboard.press('Enter');
-  await expect(page.getByRole('button', { name: 'Continue' })).toBeFocused();
-});
-```
-
-For a group, use ordinary `beforeEach` setup and start recording once per test after its page setup. Tests that never request the fixture produce no journey observations. Requesting it without starting is reported as incomplete. A native Locator declares the snapshot root; it may mount later. An ambiguous root is never silently reduced to its first match, and a missing root never becomes a whole-document snapshot.
-
-[The form recipe](https://github.com/Light2288/a11y-journey-evidence/blob/main/examples/shared/form-journey.ts) declares `page.locator('#form')` as its capture root. Name and Team are required text fields with submit-only in-page validation. Invalid keyboard submission shows inline errors, sets `aria-invalid`, associates errors through `aria-describedby`, and focuses the first invalid field. Native `toHaveAccessibleDescription` verifies this chosen association; `aria-errormessage` uses different semantics and its own native assertion. The example disables browser validation UI so it cannot mask the deliberately omitted focus movement. Keyboard correction and resubmission clear stale errors/references and show a success status. This policy is explicit for this example; DOM semantics do not prove a screen reader announces an error.
-
-Options on `start`:
-
-| Option | Default | Meaning |
+| `start` option | Default | Meaning |
 | --- | --- | --- |
-| `root` | Required | Native Locator in the fixture page's main light-DOM document |
-| `screenshots` | `true` | Capture a page screenshot on an actual failure |
-| `ariaSnapshots` | `true` | Capture the declared-root ARIA snapshot on an actual failure |
-| `maxObservations` | `1000` | Integer from 1 to 10000; overflow is visible and incomplete |
+| `root` | Required | Unambiguous native locator in the fixture page's main light-DOM document, used for scoped ARIA capture |
+| `screenshots` | `true` | Attempt a page screenshot on an actual failure visible at teardown |
+| `ariaSnapshots` | `true` | Independently attempt the declared-root ARIA snapshot on an actual failure |
+| `maxObservations` | `1000` | Integer from 1 to 10000; overflow is disclosed as incomplete |
 
-Screenshot and snapshot controls are independent. Recording starts after setup; navigation and document replacement during a recorded journey are unsupported boundaries. Root/frame/page misconfiguration is contextualized rather than silently repaired.
+A root may mount later. Ambiguity is never silently reduced to the first match; a missing root never becomes a whole-document snapshot. Tests that never request `journey` are omitted; requesting it without `start` is reported as incomplete. Navigation/document replacement during observation is unsupported.
 
-## Interpret the evidence
+See [fixture composition and capture controls](https://light2288.github.io/a11y-journey-evidence/guide/integration.html) and the [API/lifecycle reference](https://light2288.github.io/a11y-journey-evidence/reference/api.html) for exports, reporter options, bounds, and configuration errors.
 
-Reports keep native actual/expected status, attempts/retries/repeats, executed assertions, and evidence completeness separate. Earlier failed attempts remain visible. A test can pass with incomplete evidence. No assertions means no verified behavioral checks; the package does not infer that any particular assertion adequately tests accessibility. After an early failure, only executed checks are shown.
+## Examples and evidence
 
-Browser sequence numbers describe observed order. Native sequence numbers describe step starts. They do not establish a shared clock, causation, or a total order between browser events and native steps. Transient body focus can occur between other focus observations; sampled assertions determine the example's expected boundaries.
+The [dialog recipe](https://light2288.github.io/a11y-journey-evidence/recipes/dialog.html) declares activation, initial focus, both containment boundaries, dismissal, and restoration. The [form recipe](https://light2288.github.io/a11y-journey-evidence/recipes/form.html) declares invalid-submit error associations, first-invalid-field focus, correction, and resubmission. These are explicit example policies; DOM semantics do not prove a screen reader announces an error.
 
-Screenshots and snapshots describe fixture-teardown state when available, not necessarily assertion-time state. Closed pages, lost roots, capture errors, truncation, and unavailable artifacts are explicit. An empty snapshot of a hidden dialog is retained as empty. A later fixture teardown failure is disclosed separately from the earlier capture point.
+Each repository demo contains two correct cases and four deliberately broken variants. Commands succeed when correct cases pass and broken cases fail their intended assertions. Playwright may summarize all six expected cases as passed, while the evidence retains the four **actual failed assertions**. An unexpected pass fails the run; regression verification also rejects unrelated failures.
 
-Capture limitations do not rewrite native results. Missing/corrupt fixture handoff, failed bundle copying, or report-write failure makes an otherwise successful run fail while retaining each native test's original status. If a report cannot be written, stderr records the outcome. Hard process termination can prevent finalization.
+For examples of what a failure reveals, read the inspected synthetic [dialog walkthrough](https://light2288.github.io/a11y-journey-evidence/evidence/dialog.html) and [form walkthrough](https://light2288.github.io/a11y-journey-evidence/evidence/form.html).
 
-Move the **whole run directory**, including `assets`, to share a bundle. The Markdown explanation works without a trace or hosted viewer. Existing native traces are copied when available; the package never starts a second trace session.
+### Read and share a bundle
 
-## Application data and limits
+Reports keep native actual/expected status, attempts, executed assertions, and completeness separate. A test can pass with incomplete evidence. No executed assertions means no verified behavioral checks; after an early failure, only executed checks appear. Browser-event sequences and native-step sequences remain separate and do not establish a shared clock or causation.
 
-Observations retain Tab, Shift+Tab, Enter, Escape, and relevant Space keydown events. Printable input history and field values are excluded; Space in text-editing targets is suppressed. Focus descriptors contain a local reference, tag, and allowlisted attributes: `id`, `name`, `type`, `role`, `tabindex`, `disabled`, `aria-label`, `aria-labelledby`, `aria-expanded`, `aria-hidden`, `aria-modal`, `aria-selected`, `aria-checked`, `aria-disabled`, `aria-pressed`, `aria-invalid`, and `aria-describedby`. Attribute strings are clipped at 256 characters with disclosure. These are sampled raw attributes, not computed names/descriptions or continuous validation-state tracking.
+Screenshots and snapshots describe **fixture-teardown state**, which may differ from assertion-time state. Closed pages, lost roots, empty snapshots, capture errors, truncation, and later teardown failures are disclosed. Capture limitations do not rewrite native outcomes. Missing/corrupt handoff or bundle/report-write failures make an otherwise successful run fail, with diagnostics; hard process termination can prevent finalization.
 
-Space filtering respects effective content editability, including noneditable buttons nested inside editable containers. Input/textarea and document-design-mode safeguards remain in place. This targeted correction does not establish general rich-text-editor support; see [the Space-key fix results](https://github.com/Light2288/a11y-journey-evidence/blob/main/docs/space-key-observation-fix-results.md).
+Move the **whole run directory**, including `assets`, to share a bundle. Its Markdown explanation works without a hosted viewer or trace. Available native traces are copied; trace recording remains Playwright's responsibility. Read the [evidence interpretation guide](https://light2288.github.io/a11y-journey-evidence/evidence/reading.html) for details.
 
-Native records are bounded at 10000 steps per attempt; titles/diagnostics at 16 KiB per string, with visible clipping. Arbitrary native step parameters are not copied wholesale. Titles, diagnostics, attributes, screenshots, snapshots, and traces can still contain application data. Use synthetic data and inspect bundles before sharing. Capture controls and typed-value exclusion do not provide general sanitization.
+## Limits and application data
 
-Support is limited to Chromium, one page/main document, ordinary light DOM, and the explicit observed journey. Frames, new pages, shadow traversal, navigation/document replacement, nested dialogs, patterns beyond the dialog/form examples, and additional browsers are outside this increment. Identifiable unsupported boundaries are disclosed; complete detection outside scope is not promised. Custom matcher internals are not interpreted. DOM focus, ARIA structure, and screenshots do not establish screen-reader announcements, focus-indicator quality, inclusive usability, or conformance.
+Supported scope is **Chromium, one page/main document, ordinary light DOM**, and the explicit observed journey. Frames, new pages, shadow traversal, navigation/document replacement, nested dialogs, additional patterns/browsers, and custom matcher interpretation are outside the verified scope. Detection of unsupported boundaries is best-effort.
 
-## Findings and release continuity
+The observer retains Tab, Shift+Tab, Enter, Escape, and relevant Space events. Printable input history and field values are excluded from observations; Space inside text-editing targets is suppressed. Focus descriptors retain local references, tags, and bounded allowlisted raw attributes, rather than computed names or continuous state tracking.
 
-See [the form author comparison](https://github.com/Light2288/a11y-journey-evidence/blob/main/docs/batch-2-comparison.md), [Batch 2 verification and remaining release work](https://github.com/Light2288/a11y-journey-evidence/blob/main/docs/batch-2-results.md), and [the Batch 2 specification](https://github.com/Light2288/a11y-journey-evidence/blob/main/docs/superpowers/specs/2026-10-27-batch-2-form-package-comparison.md). [Batch 1's comparison](https://github.com/Light2288/a11y-journey-evidence/blob/main/docs/batch-1-comparison.md) and [results](https://github.com/Light2288/a11y-journey-evidence/blob/main/docs/batch-1-results.md) remain historical records. **External validation is pending.**
+**Artifacts can still contain application data.** Titles, diagnostics, labels/attributes, screenshots, ARIA snapshots, and traces are not generally sanitized. Capture controls are independent and do not sanitize other artifacts. Start with synthetic data and inspect the whole bundle before sharing.
 
-The v0.1.0 scope includes both completed batches and the Space-key correction. The linked delivery records preserve their original findings and decisions; current release preparation and publication are tracked separately. These checks support the documented experimental scope and do not establish external usefulness, screen-reader behavior, or accessibility conformance. Further product work needs its own approved scope and artifacts.
+DOM focus, accessible descriptions, ARIA structure, and screenshots do not establish screen-reader announcements, focus-indicator quality, inclusive usability, accessibility conformance, or complete keyboard coverage. See the [data and compatibility limitations](https://light2288.github.io/a11y-journey-evidence/limitations.html), [observation/diagnostic bounds](https://light2288.github.io/a11y-journey-evidence/reference/api.html#observation-bounds), and [troubleshooting](https://light2288.github.io/a11y-journey-evidence/troubleshooting.html).
 
-[Read the documentation](https://light2288.github.io/a11y-journey-evidence/) for published v0.1.0: onboarding, integration, recipes, inspected failure walkthroughs, API, comparison and limits.
+## Repository development
 
-## Documentation development
-
-The English documentation uses VitePress. With Node 24.21.0 and npm 11.19.0:
+Use the tested Node/npm versions above. From a checkout:
 
 ```sh
 npm ci
+npx playwright install chromium
+npm test
+npm run demo:package
+npm run demo:stock
+npm run verify:consumer
+```
+
+Use native filters to reproduce form failures:
+
+```sh
+npm run demo:package -- --grep "form missing-error-association"
+npm run demo:stock -- --grep "form missing-error-association"
+npm run demo:package -- --grep "form failed-error-focus"
+npm run demo:stock -- --grep "form failed-error-focus"
+```
+
+| Repository output | Location |
+| --- | --- |
+| Package Markdown | `a11y-evidence/<run-id>/report.md` (printed by the command) |
+| Native package HTML | `.artifacts/package-html/index.html` |
+| Stock HTML / native JSON | `.artifacts/stock-html/index.html` / `.artifacts/stock-native.json` |
+| Packed consumer / verification | `.artifacts/consumer/` / `.artifacts/consumer-verification.json` |
+
+Open native reports with `npx playwright show-report .artifacts/stock-html` or the package folder. Both demos enable native traces. Stock attaches observed focus, a screenshot, a scoped ARIA snapshot, and capture timing to actual failures.
+
+`npm run build` compiles ESM JavaScript and declarations. `npm run typecheck`, `npm run test:unit`, and `npm run test:browser` check types, Node tests, and Chromium integration respectively. Generated outputs stay ignored.
+
+### Verify a local tarball
+
+```sh
+npm run build
+mkdir -p .artifacts/package
+npm pack --pack-destination .artifacts/package
+```
+
+Install the generated tarball in another ESM project with `npm install --save-dev /absolute/path/to/a11y-journey-evidence-0.1.0.tgz @playwright/test@1.64.1`. The tested-toolchain and data limitations still apply.
+
+`npm run verify:consumer` installs the packed artifact in a fresh external copy of the [minimal consumer](https://github.com/Light2288/a11y-journey-evidence/tree/main/examples/consumer), checks types, fixture composition, native/evidence reporter coexistence, and portable links. Two correct selected journeys produce evidence; an unselected control does not. Integration imports installed files rather than repository source.
+
+### Develop the documentation
+
+The English documentation uses VitePress, standard-theme navigation, and local search:
+
+```sh
 npm run docs:dev
 npm run docs:build
 npm run docs:preview
@@ -166,12 +209,22 @@ npm run docs:check
 npm run docs:verify-examples
 ```
 
-Production preview: `http://localhost:4173/a11y-journey-evidence/`. Browser checks target the built site; build before running them. Documentation build output stays outside the npm distribution.
+Production preview is `http://localhost:4173/a11y-journey-evidence/`. Build before `docs:test`; `docs:check` runs verifier unit checks, a production build, and Chromium site checks. `docs:verify-examples` installs npm 0.1.0 in a fresh temporary ESM project and verifies seven cases, fixture composition, and native/evidence reports; outputs remain under `.artifacts/docs-examples/`. Documentation tooling and images stay outside the npm distribution.
 
-`docs:check` runs verifier unit checks, a production build and Chromium site checks. `docs:verify-examples` installs the published package in a fresh temporary ESM project, typechecks it, and verifies all seven native outcomes, fixture composition and reporting. It preserves local evidence under `.artifacts/docs-examples/`. Documentation dependencies are development-only.
+A small theme extension labels the search field and restores focus on dismissal. Keep its browser regressions when upgrading VitePress. Documentation PR checks use read-only permissions; a user-merged main push uploads only `site/.vitepress/dist/` and deploys through the `github-pages` environment. Pages uses **GitHub Actions**. Documentation CI does not broaden package compatibility claims.
 
-The site retains VitePress's standard layout and local search. A small theme setup extension labels its search field and restores focus after dismissal; keep the browser regressions when upgrading VitePress.
+After deployment, inspect the `Documentation` run and public `build-info.json`. Set `DOCS_BASE_URL` to the public site and `DOCS_EXPECTED_COMMIT` to the verified deployment SHA, then run `npm run docs:test -- --grep live`. Keep local `docs:check` for full publication-boundary checks.
 
-Documentation pull requests build and check the production site with read-only repository permission. After a user merges into `main`, the workflow uploads only `site/.vitepress/dist/` and deploys through the `github-pages` environment; deployment permission is confined to that main-only job. The repository's Pages source must be **GitHub Actions**. Inspect the `Documentation` run and public `build-info.json` to tie served content to its commit. These documentation checks do not establish package compatibility on the CI host.
+## Findings and release history
 
-For live smoke verification after deployment, set `DOCS_BASE_URL` to the public site and `DOCS_EXPECTED_COMMIT` to the verified deployment SHA, then run `npm run docs:test -- --grep live`. This uses the public site instead of starting a preview server. Keep local `docs:check` for the full output/publication-boundary checks.
+The [stock Playwright comparison](https://light2288.github.io/a11y-journey-evidence/comparison.html) is an **author assessment**. Native reports and traces already offer substantial capabilities; the package adds another evidence presentation with its own integration and review costs. **External validation is pending**; no measured time savings or external endorsement is claimed.
+
+v0.1.0 includes both dialog and form batches and the Space-key correction. Historical records retain their original findings:
+
+- Dialog: [comparison](https://github.com/Light2288/a11y-journey-evidence/blob/main/docs/batch-1-comparison.md) and [results](https://github.com/Light2288/a11y-journey-evidence/blob/main/docs/batch-1-results.md).
+- Form: [comparison](https://github.com/Light2288/a11y-journey-evidence/blob/main/docs/batch-2-comparison.md), [results](https://github.com/Light2288/a11y-journey-evidence/blob/main/docs/batch-2-results.md), and [specification](https://github.com/Light2288/a11y-journey-evidence/blob/main/docs/superpowers/specs/2026-10-27-batch-2-form-package-comparison.md).
+- [Space-key fix results](https://github.com/Light2288/a11y-journey-evidence/blob/main/docs/space-key-observation-fix-results.md), including the limits of editability filtering and rich-text-editor support.
+
+## License
+
+[MIT](https://github.com/Light2288/a11y-journey-evidence/blob/main/LICENSE).
