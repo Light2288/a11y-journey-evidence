@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://light2288.github.io/a11y-journey-evidence/images/a11y-journey-evidence.png" alt="Illustration of keyboard interactions with a dialog leading to a report with focus observations and a captured screenshot" width="640">
+  <img src="https://raw.githubusercontent.com/Light2288/a11y-journey-evidence/3b3a0941c347f1b3d7c9fb6002ec5d086cccca86/site/public/images/a11y-journey-evidence.png" alt="Illustration of keyboard interactions with a dialog leading to a report with focus observations and a captured screenshot" width="400">
 </p>
 
 <h1 align="center">A11y Journey Evidence</h1>
