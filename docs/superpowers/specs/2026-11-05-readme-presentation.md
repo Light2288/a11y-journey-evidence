@@ -2,7 +2,7 @@
 
 **Slug:** `readme-presentation`
 **Type:** chore
-**Status:** APPROVED — image URL/display-size revision
+**Status:** COMPLETE — image URL/display-size correction verified locally; user integration pending
 **Created:** 2026-11-05
 **Updated:** 2026-11-05
 **Provenance:** The user's request to add `/Users/davide/Downloads/Keyboard Accessibility Flow Infographic.png`, display it centered at the top of the README, use `/Users/davide/Personal/Projects/lightstimulus-static-site-nextjs/README.md` as a structural reference without an emoji in the title, and evaluate the whole README; the user's subsequent `confirmed` message accepting the original scope/design; the later report and screenshot of the missing/oversized branch README image; and the user's `approved` message confirming the proposed commit-pinned URL and 400 px display-size correction.
@@ -96,7 +96,7 @@ Artifact resolution selects this specification and `docs/superpowers/plans/2026-
 
 **Revised plan approval:** The user's later `approved` message immediately following presentation of correction Tasks 4–5 in the revised plan, separately from revised specification approval.
 
-**Current stage:** Stage 4 — image URL/display-size correction in progress.
+**Current stage:** Stage 4 — image URL/display-size correction complete locally; user-controlled integration pending.
 
 **Artifact:** `docs/superpowers/specs/2026-11-05-readme-presentation.md`.
 

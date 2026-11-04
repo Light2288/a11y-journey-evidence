@@ -12,7 +12,7 @@
 **Slug:** `readme-presentation`
 **Created:** 2026-11-05
 **Updated:** 2026-11-05
-**Status:** APPROVED — image URL/display-size correction in progress
+**Status:** COMPLETE — image URL/display-size correction verified locally; user integration pending
 **Execution tier:** full
 **Implementation model role:** full
 **Execution method:** Native
@@ -161,9 +161,9 @@ The completed Tasks 1–3 below are retained as historical instructions for the 
 - [x] Run `npm run docs:check`, `npm run test:unit`, and `npm pack --dry-run --json` with the pinned Node/npm environment documented above. Expected: exit 0, unchanged production PNG checksum, and the same npm boundary excluding site/PNG files. Record exact exits and decisive output. Use the actual file list rather than relying on the old 23-file count alone.
 - [x] Verify the corrected image URL through the real network again as part of the presentation check if the README changes after Task 4. Validate header destinations and compare the entire revision delta. Expected: only the two README attribute values plus approved specification/plan/outcome records change. Runtime, dependency pins, code snippets, examples, release/tag, and all other assets remain unchanged. Do not repeat fresh-consumer installation for unchanged snippets; retain its prior successful result as historical evidence.
 - [x] Append actual correction checks, rendered screenshots, source/proxy HTTP/checksum results, host/tool versions, and public-publication status to a separate correction outcome section below. Commit intended verification records before the revised-state gate.
-- [ ] Invoke `personal-workflows:code-review` once in integrated mode for the revised branch state. Supply the approved revised pair, complete branch diff and explicit correction delta from `207edc0`, prior gate result, and fresh correction evidence. Run specification review before quality review on one immutable package. The review applies to the revised state; preserve the original gate record and do not dispatch a generic reviewer.
-- [ ] Resolve findings using the prescribed single remediation loop and rerun affected checks. Run the branch-finishing `npm test`; expected exit 0 for the full existing package suite. Record review outcome, limitations, and actual final verification; mark only the correction's new tasks complete. Run `git diff --check` and commit explicit outcome paths locally.
-- [ ] Report the 400 px header, real image-loading proof, checks and review, current clean branch/commits, and remaining user action. The user must push the new commits to see the revised GitHub branch README; Pages is no longer required for its image to load. The separate Pages asset and main README still depend on user merge/deployment. Do not push or merge, then stop before any additional changes.
+- [x] Invoke `personal-workflows:code-review` once in integrated mode for the revised branch state. Supply the approved revised pair, complete branch diff and explicit correction delta from `207edc0`, prior gate result, and fresh correction evidence. Run specification review before quality review on one immutable package. The review applies to the revised state; preserve the original gate record and do not dispatch a generic reviewer.
+- [x] Resolve findings using the prescribed single remediation loop and rerun affected checks. Run the branch-finishing `npm test`; expected exit 0 for the full existing package suite. Record review outcome, limitations, and actual final verification; mark only the correction's new tasks complete. Run `git diff --check` and commit explicit outcome paths locally.
+- [x] Report the 400 px header, real image-loading proof, checks and review, current clean branch/commits, and remaining user action. The user must push the new commits to see the revised GitHub branch README; Pages is no longer required for its image to load. The separate Pages asset and main README still depend on user merge/deployment. Do not push or merge, then stop before any additional changes.
 
 ### Revised acceptance traceability
 
@@ -259,7 +259,7 @@ The review's three declined-to-judge areas were resolved as explicit limitations
 
 **Revised plan approval:** The user's `approved` message immediately following presentation of correction Tasks 4–5, separately from revised specification approval.
 
-**Current stage:** Stage 4 — correction implementation in progress.
+**Current stage:** Stage 4 — correction complete locally; user-controlled integration pending.
 
 **Artifact:** `docs/superpowers/plans/2026-11-05-readme-presentation.md`, correction Tasks 4–5. Original Tasks 1–3 and their results remain completed historical records.
 
@@ -291,3 +291,23 @@ Header checks returned HTTP 200 for the immutable image, all badges, Playwright 
 Verified environment remains macOS 27.0.1 arm64; Node 24.21.0, npm 11.19.0, TypeScript 7.0.2, Playwright 1.64.1, Chromium 156.0.8078.4, VitePress 1.6.4. The correction changes only two README attribute values plus approved artifact/outcome records. PNG bytes, other README content, runtime, dependencies, examples, release/tag, and published npm package are unchanged.
 
 The immutable source already works independently of Pages. The new branch README needs the user's push; main README and the Pages asset still need merge/deployment. Current findings remain author assessments and external validation pending. The revised-state sequential gate and branch-finishing full test are pending below; no completed gate is claimed yet.
+
+### Correction gate and endpoint — 2026-11-05
+
+The revised branch state `a6ed5087d784cf06e12abd47e49216a099026e42` passed the sole integrated sequential gate for this approved correction: fresh specification PASS, then fresh quality PASS on the same immutable package. There were no findings, deferred minors, fixes, or repeat reviews. This is a distinct gate for the approved revision; the original gate above remains historical.
+
+- `GATE_RUN_ID`: `19be82c0-da66-4027-bf31-f12d043c9401`.
+- `REVIEWED_STATE_ID`: `a6ed5087d784cf06e12abd47e49216a099026e42:8e5501dc-73a4-4031-95e0-3db16ee243cb`.
+- `PACKAGE_SHA256`: `49d484aa5233aec8a538aed95d5cd0a8dc988d6ce2ff067febb2ceb6a904eb65`.
+
+Quality independently confirmed that both packaged diffs match Git, the reviewed checkout is clean, the GitHub Markdown request exactly contains the current README, and the source/repository/build PNG checksums match. It inspected desktop/mobile screenshots and the recorded real-network checks. Suites were assessed from supplied evidence rather than rerun by reviewers. Package, reports, and correction execution records are retained under ignored `.artifacts/readme-presentation/correction/`.
+
+The author's branch-finishing `npm test` then exited **0**, with **6 unit tests and 53 browser tests passed** (browser run 24.2s). No implementation changed after review; the final commit updates only this pair's lifecycle/checklist/outcome records. Final `git diff --check` and whole-branch whitespace checks passed.
+
+The quality review's declined-to-judge areas are explicit rulings/limitations:
+
+1. **Published corrected GitHub rendering and Pages delivery:** leave user-controlled publication pending because the plan excludes pushes/merges. GitHub-generated markup and real immutable-source loading are verified. Cost if wrong: a live layout or deployment issue could need follow-up.
+2. **npm webpage rendering:** remain unverified after HTTP 403. Previous official-registry installation passed, and published npm content remains unchanged. Cost if wrong: npm-specific rendering could differ during a future publication.
+3. **Broader compatibility:** retain tested-environment claims only. Cost if wrong: unsupported environments may encounter issues.
+
+**Correction endpoint reached:** Keep the existing `docs/readme-presentation` branch and checkout, with the 400 px image URL/display correction and verification records committed locally. The user must push the new commits to update the GitHub branch README, then merge through their usual PR workflow. The image itself already loads independently of Pages; the main README and separate Pages asset still await merge/deployment. No push, merge, npm publication, release/tag edit, workflow change, image modification, or new site/product work occurred. Stop here.
