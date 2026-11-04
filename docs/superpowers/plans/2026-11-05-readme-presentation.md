@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:executing-plans` through `personal-workflows:spec-implement`. Execute tasks in order using the checkbox steps below. Preserve the session's Native execution preference.
 
-**Goal:** Add the supplied illustration and refresh the README so readers can understand, install, and use experimental `a11y-journey-evidence@0.1.0` before encountering contributor details.
+**Goal:** Finish the existing README presentation with an independently loadable, commit-pinned illustration displayed at 400 px wide, preserving the completed onboarding refresh.
 
-**Architecture:** Store one unchanged PNG in VitePress's existing public directory and reference its absolute production URL from the README. Reorganize existing documentation without changing the package or site layout. Reuse current verification commands and temporary visual checks.
+**Architecture:** Keep the unchanged PNG in VitePress's public directory and reference that existing asset through its absolute commit-pinned GitHub URL. Change only the README image source/display width. Reuse current tooling, verifying the real remote image and GitHub-generated markup without local image substitution.
 
 **Tech Stack:** GitHub-flavored Markdown and supported HTML, PNG, existing VitePress 1.6.4 and Playwright 1.64.1, Node 24.21.0, npm 11.19.0.
 
@@ -12,25 +12,25 @@
 **Slug:** `readme-presentation`
 **Created:** 2026-11-05
 **Updated:** 2026-11-05
-**Status:** APPROVED — local implementation complete; integration pending
+**Status:** APPROVED — image URL/display-size correction in progress
 **Execution tier:** full
 **Implementation model role:** full
 **Execution method:** Native
-**Provenance:** The approved specification; the user's separate `approved` message following its presentation; inspection of the current README, Light Stimulus reference README, package manifest, existing documentation, verifier and package/browser checks.
+**Provenance:** The originally approved specification and plan; the later confirmed image URL/display-size correction and its separately approved revised specification; inspection of the current README, GitHub-rendered branch markup, remote asset responses, package manifest, and existing verification tooling. Original implementation/review evidence is retained below.
 
 ## Global Constraints
 
-- Copy `/Users/davide/Downloads/Keyboard Accessibility Flow Infographic.png` unchanged to `site/public/images/a11y-journey-evidence.png`. Preserve the Downloads original.
+- Keep the existing `site/public/images/a11y-journey-evidence.png` unchanged, matching `/Users/davide/Downloads/Keyboard Accessibility Flow Infographic.png`. Preserve the Downloads original.
 - Source PNG: 1672 × 941; SHA-256 `02e0cf7ce99bc9ea5c5fda37afd275c46bec3917c7779d0d007cf7ed51948647`.
-- README image URL: `https://light2288.github.io/a11y-journey-evidence/images/a11y-journey-evidence.png`. Center it at approximately 640 px wide, preserving aspect ratio and narrow-container fit. Identify it as an illustration in its alternative text.
+- README image URL: `https://raw.githubusercontent.com/Light2288/a11y-journey-evidence/3b3a0941c347f1b3d7c9fb6002ec5d086cccca86/site/public/images/a11y-journey-evidence.png`. Center it at 400 CSS px wide when space permits, preserving aspect ratio and narrow-container fit. Preserve its existing descriptive alternative text.
 - Use a plain project title and headings without emoji. Keep the package experimental, externally unvalidated, and narrowly tested.
 - Preserve useful commands, native authoring, expected-failure interpretation, capture timing, data safeguards, and historical references. Concise summaries may link to existing detailed documentation.
 - No runtime, export, dependency, version, npm publication, release/tag, workflow, homepage-layout, personal-site, or image-generation changes. Keep the PNG outside the npm archive.
-- Work in the existing checkout. Do not refresh main or create a branch until this plan is explicitly approved. Preserve local edits; no automatic stash, reset, or force update. Do not push or merge.
-- Complete one integrated `personal-workflows:code-review` gate, specification first and quality second. Do not add a generic final reviewer.
+- Work in the existing checkout on the existing `docs/readme-presentation` branch after separate revision approvals. Preserve local edits and commits; no automatic stash, reset, force update, new branch, or main update is needed for this bounded correction. Do not push or merge.
+- Complete one integrated `personal-workflows:code-review` gate for the revised state, specification first and quality second. The original passed gate remains historical evidence; do not reopen it or add a generic final reviewer.
 - This is a documentation/static-asset change. Do not add tests that mirror prose, layout configuration, or the image filename; existing checks and direct visual/asset verification are sufficient. A discovered behavioral fix requires its own scope approval.
 
-## Repository and Tooling Evidence
+## Original Repository and Tooling Evidence
 
 - Inspected HEAD: `48883031e85f8eb68a795ad9cd9aea9b0a227d62`. Main matches the locally recorded origin/main. Only this increment's specification was untracked before planning; no fetch has run during definition/planning.
 - Artifact resolution: specification `NEW_ONLY`; plan `MISSING` before creating this file. No matching legacy artifact exists. Both filenames use the specification's original date.
@@ -43,7 +43,7 @@
 - VitePress exports `createMarkdownRenderer`, confirmed in its installed declarations; Playwright is installed. Use these existing tools for an ignored local README preview; no additional renderer dependency is needed.
 - Local Node 24.21.0 and npm 11.19.0 were rechecked on Darwin arm64. Prefix local Node/npm commands with `env -u NO_COLOR -u FORCE_COLOR PATH="/Users/davide/.nvm/versions/node/v24.21.0/bin:$PATH"` to preserve the repository's toolchain.
 
-## Review Focus
+## Original Review Focus
 
 1. **A repository-relative image works on GitHub but fails on npm:** check the exact absolute production URL and prove the corresponding built asset loads locally; disclose deployment pending.
 2. **A landscape image becomes a tiny icon or overflows mobile:** inspect desktop and 375 px rendering for legibility, full-image visibility, aspect ratio, and document overflow.
@@ -64,6 +64,8 @@ Each focus item has a verification step in Task 2 or Task 3 below.
 | `.artifacts/readme-presentation/` (ignored) | Temporary preview scripts/HTML, screenshots, command logs, and review scratch package |
 
 No other tracked files are planned. The implementation may refine README wording and header markup within the approved criteria.
+
+The completed Tasks 1–3 below are retained as historical instructions for the original implementation. Their former Pages URL, 640 px sizing, and deployment dependency are superseded only by the revised global constraints and Tasks 4–5. Do not rerun the completed original work or overwrite its evidence.
 
 ### Task 1: Establish the approved branch and artifact baseline [size: S | risk: none | mechanical: true | clear_pattern: true | objectively_verifiable: true | concerns: none]
 
@@ -113,7 +115,68 @@ No other tracked files are planned. The implementation may refine README wording
 - [x] Resolve actionable findings within scope and rerun affected checks. Record gate outcomes and any residual limitations, then run `git diff --check` and inspect final status. Commit explicit final outcome/fix paths; do not include scratch files or unrelated work.
 - [x] Report the resulting branch/commits, image location, README improvements, checks actually passed, limitations, and next integration action. Explain that the user must push/open/merge a PR and allow the existing Pages deployment before the new public image URL works. No push, merge, publication, or further site work occurs here.
 
-## Acceptance and Verification Traceability
+## Image URL/Display-Size Correction
+
+### Current evidence and execution boundary
+
+- Revision base: `207edc0540b458d9c058d39c5bc505afa3a69437` on the clean, published `docs/readme-presentation` branch before artifact revisions. No branch update/fetch has been performed during correction planning.
+- Specification and plan resolve as the sole matching new-path pair; retain the same filenames, slug, creation date, original approvals, and outcomes. The revised specification and this revised plan received separate explicit approvals.
+- Investigation found the branch PNG present, the README's Pages source returning HTTP 404, and GitHub markup preserving the former 640 px width. The new immutable source returned HTTP 200 with `image/png`. Recheck actual state during execution.
+- Architecture paths absent at the original base remain absent at the revision base: `docs/architecture/map.md`, `docs/architecture/`, `docs/adr/`, and `docs/adrs/`. Freshness remains not applicable; no applicable ADR is present and no map will be generated.
+- Existing package scripts still provide `npm test`, `npm run test:unit`, `npm run docs:check`, and their build/browser prerequisites. The existing package regression uses `npm pack --dry-run --json`. Installed GitHub CLI can retrieve rendered README HTML and render local Markdown through its documented `/markdown` endpoint; this computes HTML without editing a repository object or posting a message.
+- Keep temporary correction checks/logs/screenshots under `.artifacts/readme-presentation/correction/`; do not overwrite original verification artifacts. Restore original task-completion entries into the plan-scoped execution ledger if its removed workspace must be recreated, then resume at Task 4.
+- Preserve Native/full execution. Editorial and visual judgment in Task 5 retains the full tier; no parent-model switch is implied.
+
+### Correction review focus
+
+1. **A substituted image hides a broken remote source:** load the actual immutable URL, verify response bytes, and render without image interception.
+2. **GitHub sanitization/proxying changes the markup:** render the revised Markdown through GitHub and verify the 400 px width and source/canonical target, including the proxy response when present.
+3. **The smaller image loses readability or overflows mobile:** inspect centered 400 px desktop and narrower responsive rendering with original aspect ratio and no document overflow.
+4. **An asset link depends on a deleted branch or Pages:** require the exact existing commit-pinned URL and distinguish source availability from revised README/Pages publication.
+5. **A two-value correction disturbs completed work:** review the delta against the revision base; retain all other README content, unchanged PNG, npm boundary, and prior records.
+
+### Task 4: Correct the image source and display width [size: S | risk: none | mechanical: true | clear_pattern: true | objectively_verifiable: true | concerns: none]
+
+**Acceptance criteria:** AC-01, AC-02, AC-03, AC-07, AC-08
+
+**Files:** Modify `README.md` and the approved artifact pair's lifecycle metadata only. Do not modify the PNG.
+
+**Interfaces:** Consumes both separately approved revisions and the existing image commit. Produces the same README with only `src` and `width` changed on its illustration element.
+
+- [ ] Identify the correction's scope confirmation, revised specification approval, and later revised plan approval. Save/mark the pair approved before editing the README. Inspect local status and `git fetch origin`; confirm the existing branch and its remote still match the revision base or inspect any intervening changes. Preserve the specification/plan edits. Do not reset, update main, create another branch, or overwrite divergent work. Commit the approved pair with explicit paths using `docs: record approved README image correction`.
+- [ ] Record the current image URL response and GitHub's rendered branch README markup using the existing `gh api` readme endpoint. Expected from investigation: old Pages source HTTP 404, width 640. If public state has changed, report the actual observation rather than fabricating a red result. Recheck the local PNG checksum and the immutable remote source checksum/content type.
+- [ ] Change only the illustration `src` to the exact commit-pinned URL above and `width="640"` to `width="400"`. Keep centering, descriptive alternative text, all other README content, and the PNG bytes unchanged.
+- [ ] Use the installed GitHub CLI's Markdown-rendering endpoint with the local README as structured JSON input saved under ignored artifacts. Require the rendered illustration to retain width 400, the correct target or `data-canonical-src`, and responsive maximum-width behavior. Fetch the real source and any generated proxy URL: require HTTP 200, PNG content, and the original SHA-256. Do not use local image substitution; investigate/report proxy errors separately. No branch push or remote content edit is required to compute this HTML.
+- [ ] Render the GitHub-generated HTML with a local GitHub-like container at 1280 px and 375 px using installed Playwright. Allow real network image loading. Require natural dimensions 1672 × 941; centered desktop width 400 and height approximately 225; narrower-container fit, preserved aspect ratio, no document overflow, and intact title/badges/links. Save and inspect screenshots. Label this as GitHub-generated markup in a local preview; the actual updated branch page still awaits the user's push.
+- [ ] Run `git diff --check` and inspect `git diff 207edc0540b458d9c058d39c5bc505afa3a69437 -- README.md`. Expected: only the image source and width changed. Commit only `README.md` using `docs: fix README image loading and reduce display width`.
+
+### Task 5: Verify the correction and preserve delivery evidence [size: S | risk: none | mechanical: false | clear_pattern: true | objectively_verifiable: true | concerns: none]
+
+**Acceptance criteria:** AC-01–AC-09
+
+**Files:** Append correction outcomes to this plan and update this pair's lifecycle metadata. Keep original execution/review notes intact; all new scratch evidence stays under the correction artifact directory.
+
+**Interfaces:** Consumes Task 4's corrected image reference, real response/rendering proof, and revision-base delta. Produces locally committed verified corrections and a clear user-controlled integration handoff.
+
+- [ ] Run `npm run docs:check`, `npm run test:unit`, and `npm pack --dry-run --json` with the pinned Node/npm environment documented above. Expected: exit 0, unchanged production PNG checksum, and the same npm boundary excluding site/PNG files. Record exact exits and decisive output. Use the actual file list rather than relying on the old 23-file count alone.
+- [ ] Verify the corrected image URL through the real network again as part of the presentation check if the README changes after Task 4. Validate header destinations and compare the entire revision delta. Expected: only the two README attribute values plus approved specification/plan/outcome records change. Runtime, dependency pins, code snippets, examples, release/tag, and all other assets remain unchanged. Do not repeat fresh-consumer installation for unchanged snippets; retain its prior successful result as historical evidence.
+- [ ] Append actual correction checks, rendered screenshots, source/proxy HTTP/checksum results, host/tool versions, and public-publication status to a separate correction outcome section below. Commit intended verification records before the revised-state gate.
+- [ ] Invoke `personal-workflows:code-review` once in integrated mode for the revised branch state. Supply the approved revised pair, complete branch diff and explicit correction delta from `207edc0`, prior gate result, and fresh correction evidence. Run specification review before quality review on one immutable package. The review applies to the revised state; preserve the original gate record and do not dispatch a generic reviewer.
+- [ ] Resolve findings using the prescribed single remediation loop and rerun affected checks. Run the branch-finishing `npm test`; expected exit 0 for the full existing package suite. Record review outcome, limitations, and actual final verification; mark only the correction's new tasks complete. Run `git diff --check` and commit explicit outcome paths locally.
+- [ ] Report the 400 px header, real image-loading proof, checks and review, current clean branch/commits, and remaining user action. The user must push the new commits to see the revised GitHub branch README; Pages is no longer required for its image to load. The separate Pages asset and main README still depend on user merge/deployment. Do not push or merge, then stop before any additional changes.
+
+### Revised acceptance traceability
+
+| Criteria | Correction tasks | Evidence |
+| --- | --- | --- |
+| AC-01, AC-02 | 4, 5 | Unchanged source bytes; real source/proxy responses; 400 px desktop and responsive mobile screenshots |
+| AC-03–AC-06 | 4, 5 | Unchanged header links and README body/snippets, prior successful onboarding evidence, revised-state review |
+| AC-07 | 4, 5 | Exact immutable URL, real HTTP/PNG/checksum results, GitHub-generated markup, honest publication status |
+| AC-08, AC-09 | 4, 5 | Correction delta, existing suites/archive boundary, sequential review, appended local outcome record |
+
+No material decision remains unresolved. This correction retains the original artifact pair and completed work, changes only the confirmed two presentation values, and adds no dependency, public script, permanent prose-mirroring test, or speculative work.
+
+## Original Acceptance and Verification Traceability
 
 | Criteria | Tasks | Evidence |
 | --- | --- | --- |
@@ -126,7 +189,7 @@ No other tracked files are planned. The implementation may refine README wording
 | AC-08 | 1, 3 | Branch baseline, existing pack regression, dry-run file list, scope diff |
 | AC-09 | All | Recorded verification, sequential integrated review, final local outcome commits |
 
-## Self-Review and Approval Handoff
+## Original Self-Review and Approval Handoff (Historical)
 
 The plan covers every criterion, retains the selected delivery boundary, and leaves exact wording and minor section grouping to implementation. All project verification commands exist in the manifest or cited existing tests; image/Git checks use installed platform tools. No test-only dependency, public script, configuration change, or behavior change is introduced. Editorial work makes the full tier appropriate despite the bounded scope. No material implementation decision requires additional clarification.
 
@@ -191,3 +254,15 @@ The review's three declined-to-judge areas were resolved as explicit limitations
 3. **Ruling:** Broader compatibility remains unverified; retain the documented tested environment. Cost if wrong: unsupported environments may encounter issues.
 
 **Endpoint reached:** Keep `docs/readme-presentation` in the existing checkout with local implementation, verification, and outcome commits. No branch push, PR creation, merge, npm publication, release edit, or Pages-setting change occurred. The next user-controlled action is to publish the branch and merge its PR, then let the existing Pages workflow deploy the image. The homepage layout is unchanged; this increment supplies a reusable public image asset and its README presentation. Stop before personal-site or further product/site work.
+
+## Revised Plan Approval Handoff
+
+**Revised plan approval:** The user's `approved` message immediately following presentation of correction Tasks 4–5, separately from revised specification approval.
+
+**Current stage:** Stage 4 — correction implementation in progress.
+
+**Artifact:** `docs/superpowers/plans/2026-11-05-readme-presentation.md`, correction Tasks 4–5. Original Tasks 1–3 and their results remain completed historical records.
+
+**Approval authorizes:** Native implementation of the separately approved specification revision through Tasks 4–5 on the existing branch, including real image/rendering verification, required review, and local commits. It does not authorize pushing, merging, publishing, or changing the original image.
+
+**Execution endpoint:** A locally committed, verified 400 px README image using the existing immutable GitHub source, with preserved history and a user-controlled push/merge handoff. Correction implementation started after both revised approvals.
